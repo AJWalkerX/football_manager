@@ -61,6 +61,22 @@ public class TeamModule {
 				teamDataBase.findAll().stream().map(team -> team.getId() + "- " + team.getTeamName())
 				            .forEach(System.out::println);
 				System.out.println("-------------------------------");
+				int userSelection = askUserToContinue();
+				if (userSelection == 1){
+					Optional<Team> teamOptional = searchByTeamID();
+					if (teamOptional.isPresent()){
+						Team team = teamOptional.get();
+						String teamName = team.getTeamName();
+						teamDetailMenuOptions(teamDetailMenu(teamName), team);
+					}
+					else{
+						System.out.println("No such team found by this ID!");
+					}
+				}
+				else{
+					System.out.println("Returning to main menu...");
+				}
+				
 				break;
 			}
 			case 0:{
@@ -73,6 +89,12 @@ public class TeamModule {
 		return opt;
 	}
 	
+	private static Optional<Team> searchByTeamID() {
+		int teamID = askUserTeamID();
+		Optional<Team>teamOptional = teamDataBase.getTeamByTeamID(teamDataBase, teamID);
+		return teamOptional;
+	}
+	
 	private static Optional<Team> searchByTeamName() {
 		System.out.print("Enter a team name: ");
 		String teamName = sc.nextLine();
@@ -83,6 +105,9 @@ public class TeamModule {
 			if (userSelection == 1) {
 				int teamID = askUserTeamID();
 				teamOptional = teamDataBase.getTeamByTeamID(teamList, teamID);
+			}
+			else {
+				System.out.println("Returning to main menu...");
 			}
 		}
 		return teamOptional;

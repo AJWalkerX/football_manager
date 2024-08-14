@@ -5,6 +5,7 @@ import utility.DatabaseManager;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class TeamDB extends DatabaseManager<Team> {
 	public void getTeamSquad(PlayerDB playerDB,int teamId){
@@ -22,7 +23,9 @@ public class TeamDB extends DatabaseManager<Team> {
 	}
 	
 	public List<Team> findTeamByName(TeamDB teamDB,String teamName) {
-		List<Team> teamList = teamDB.findAll().stream().filter(t -> t.getTeamName().contains(teamName)).toList();
+		List<Team> teamList = teamDB.findAll().stream()
+		                            .filter(t -> t.getTeamName().toLowerCase().contains(teamName.toLowerCase()))
+		                            .toList();
 		System.out.println("------- Search of "+ teamName + " -------");
 		if (teamList.isEmpty()){
 			System.out.println("There are no team");
@@ -35,5 +38,8 @@ public class TeamDB extends DatabaseManager<Team> {
 	}
 	public Optional<Team> getTeamByTeamID(List<Team> teamList, int teamID) {
 		return teamList.stream().filter(team -> team.getId() == teamID).findFirst();
+	}
+	public Optional<Team> getTeamByTeamID(TeamDB teamDB,int teamID) {
+		return teamDB.veriListesi.stream().filter(team -> team.getId() == teamID).findFirst();
 	}
 }

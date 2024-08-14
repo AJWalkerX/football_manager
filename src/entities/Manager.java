@@ -16,6 +16,15 @@ public class Manager extends Person{
 		managerDB.save(this);
 	}
 	
+	public Manager(ManagerDB managerDB,Integer teamID, String name, String age, Integer experience) {
+		super.id = ++idCounter;
+		this.teamID = teamID;
+		super.name = name;
+		super.age = age;
+		this.experience = experience;
+		managerDB.save(this);
+	}
+	
 	public Integer getTeamID() {
 		return teamID;
 	}

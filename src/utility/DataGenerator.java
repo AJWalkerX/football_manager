@@ -1,9 +1,11 @@
 package utility;
 
 import databases.LeagueDB;
+import databases.ManagerDB;
 import databases.PlayerDB;
 import databases.TeamDB;
 import entities.League;
+import entities.Manager;
 import entities.Player;
 import entities.Team;
 
@@ -86,4 +88,24 @@ public class DataGenerator {
 		league1.getTeamList().addAll(List.of(team1, team2, team3, team4, team5, team6, team7, team8
 				, team9, team10, team11, team12, team13, team14, team15, team16, team17, team18));
 	}
+	public static void generateManagers(ManagerDB managerDB){
+		Manager manager1 = new Manager(managerDB,1,"Jose Mourinho","61",10);
+		Manager manager2 = new Manager(managerDB,2,"Okan Buruk","50",3);
+		Manager manager3 = new Manager(managerDB,3,"Giovanni Van Brockhorst","49",8);
+		Manager manager4 = new Manager(managerDB,4,"Abdullah Avci","61",4);
+		Manager manager5 = new Manager(managerDB,5,"Ertugrul Saglam","54",7);
+		Manager manager6 = new Manager(managerDB,6,"Ilhan Palut","47",8);
+		Manager manager7 = new Manager(managerDB,7,"Thoman Reis","50",6);
+		Manager manager8 = new Manager(managerDB,8,"Alex De Souza","46",7);
+		Manager manager9 = new Manager(managerDB,9,"Stanimir Stoilov","57",6);
+		Manager manager10 = new Manager(managerDB,10,"Michael Valkanis","49",6);
+		Manager manager11 = new Manager(managerDB,11,"Fatih Tekke","46",7);
+		Manager manager12 = new Manager(managerDB,12,"Bulent Uygun","53",8);
+		Manager manager13 = new Manager(managerDB,13,"Sami Ugurlu","47",6);
+		Manager manager14 = new Manager(managerDB,14,"Aleksandar Stanojevic","50",6);
+		Manager manager15 = new Manager(managerDB,15,"Selcuk Inan","39",3);
+		Manager manager16 = new Manager(managerDB,16,"Ozhan Pulat","39",5);
+		Manager manager17 = new Manager(managerDB,17,"Pablo Batalla","40",7);
+		Manager manager18 = new Manager(managerDB, 18, "Tuncay Sanli", "42", 6);
 	}
+}
