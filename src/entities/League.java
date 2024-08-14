@@ -1,12 +1,15 @@
 package entities;
 
+import databases.LeagueDB;
+
 import java.util.List;
 
 public class League extends BaseEntity{
 	private String leagueName;
 	
-	public League() {
+	public League(LeagueDB leagueDB) {
 		super.id = 0;
+		leagueDB.save(this);
 	}
 	
 	public String getLeagueName() {

@@ -1,5 +1,7 @@
 package entities;
 
+import databases.TeamDB;
+
 import java.util.List;
 
 public class Team extends BaseEntity{
@@ -7,11 +9,21 @@ public class Team extends BaseEntity{
 	
 	private String teamName;
 	private Manager manager;
-	private Double budget; //takımın elindeki para
+	private Long budget; //takımın elindeki para
 	private Integer leagueID;
 	
-	public Team() {
+	public Team(TeamDB teamDB) {
 		super.id = ++idCounter;
+		teamDB.save(this);
+	}
+	public Team(TeamDB teamDB,String teamName, Manager manager, Long budget, Integer leagueId) {
+		id = ++idCounter;
+		this.teamName = teamName;
+		this.manager = manager;
+		this.budget = budget;
+		this.leagueID = leagueId;
+		teamDB.save(this);
+		
 	}
 	
 	public Integer getLeagueID() {
@@ -42,11 +54,11 @@ public class Team extends BaseEntity{
 		this.manager = manager;
 	}
 	
-	public Double getBudget() {
+	public Long getBudget() {
 		return budget;
 	}
 	
-	public void setBudget(Double budget) {
+	public void setBudget(Long budget) {
 		this.budget = budget;
 	}
 	

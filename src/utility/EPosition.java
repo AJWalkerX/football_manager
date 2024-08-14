@@ -1,8 +1,8 @@
 package utility;
 
 public enum EPosition {
-	GOOLKEEPER,
+	GOALKEEPER,
 	DEFENCE,
-	MIDFIELD,
+	MIDFIELDER,
 	FORWARD,
 }

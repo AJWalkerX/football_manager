@@ -1,29 +1,31 @@
 package entities;
 
+import databases.PlayerDB;
 import utility.EPosition;
 
 public class Player extends Person{
 	static  int idCounter = 0;
 	
-	private int teamID;
+	private Integer teamID;
 	private EPosition position;
 	private Integer skillLevel;
-	private Double value; // piyasa değeri
+	private Long value; // piyasa değeri
 	
 //	{
 //		this.teamID = -1;
 //	}
 	
-	public Player() {
+	public Player(PlayerDB playerDB) {
 		super.id = ++idCounter;
+		playerDB.save(this);
 	}
 	
 	
-	public int getTeamID() {
+	public Integer getTeamID() {
 		return teamID;
 	}
 	
-	public void setTeamID(int teamID) {
+	public void setTeamID(Integer teamID) {
 		this.teamID = teamID;
 	}
 	
@@ -43,11 +45,11 @@ public class Player extends Person{
 		this.skillLevel = skillLevel;
 	}
 	
-	public Double getValue() {
+	public Long getValue() {
 		return value;
 	}
 	
-	public void setValue(Double value) {
+	public void setValue(Long value) {
 		this.value = value;
 	}
 	
