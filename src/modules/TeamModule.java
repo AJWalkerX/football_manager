@@ -1,29 +1,31 @@
 package modules;
 
-import databases.LeagueDB;
-import databases.ManagerDB;
 import databases.PlayerDB;
 import databases.TeamDB;
-import entities.Manager;
 import entities.Team;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class TeamModule {
 	private static Scanner sc = new Scanner(System.in);
 	private static TeamDB teamDataBase;
-	public  static int teamModule(TeamDB teamDB){
+	private static PlayerDB playerDataBase;
+	
+	public static int teamModule(TeamDB teamDB, PlayerDB playerDB) {
+		playerDataBase = playerDB;
 		teamDataBase = teamDB;
 		int opt = 0;
 		opt = teamModuleMenuOptions(teamModuleMenu());
 		return opt;
 	}
+
 	public static int teamModuleMenu(){
 		while (true){
 			System.out.println("### TEAM CLUB MENU ###");
-			System.out.println("1-Search Team By Name");
+			System.out.println("1- Search Team By Name");
 			System.out.println("2- List All Teams");
 			System.out.println("0- Close the application");
 			System.out.print("selection: ");
@@ -43,15 +45,21 @@ public class TeamModule {
 	public static int teamModuleMenuOptions(int opt){
 		switch (opt){
 			case 1:{ //Search Team By Name
-				List<Team> teamList = searchTeamByName();
-				if (!teamList.isEmpty()){
-					teamDetailMenuOptions(teamDetailMenu(), teamList);
+				Optional<Team> teamOptional = searchByTeamName();
+				if (teamOptional.isPresent()){
+					Team team = teamOptional.get();
+					String teamName = team.getTeamName();
+					teamDetailMenuOptions(teamDetailMenu(teamName), team);
+				}
+				else{
+					System.out.println("No such team found by this ID!");
 				}
 				break;
 			}
 			case 2:{ //List All Teams
 				System.out.println("--- Lists of All Teams ---");
-				teamDataBase.findAll().forEach(System.out::println);
+				teamDataBase.findAll().stream().map(team -> team.getId() + "- " + team.getTeamName())
+				            .forEach(System.out::println);
 				System.out.println("-------------------------------");
 				break;
 			}
@@ -65,25 +73,55 @@ public class TeamModule {
 		return opt;
 	}
 	
-	private static List<Team> searchTeamByName() {
+	private static Optional<Team> searchByTeamName() {
 		System.out.print("Enter a team name: ");
 		String teamName = sc.nextLine();
-		List<Team> teamList = teamDataBase.findAll().stream().filter(t -> t.getTeamName().contains(teamName)).toList();
-		System.out.println("------- Search of "+ teamName + " -------");
-		if (teamList.isEmpty()){
-			System.out.println("There are no team");
+		Optional<Team> teamOptional = Optional.empty();
+		List<Team> teamList = teamDataBase.findTeamByName(teamDataBase, teamName);
+		if (!teamList.isEmpty()) {
+			int userSelection = askUserToContinue();
+			if (userSelection == 1) {
+				int teamID = askUserTeamID();
+				teamOptional = teamDataBase.getTeamByTeamID(teamList, teamID);
+			}
 		}
-		else {
-			teamList.forEach(System.out::println);
-		}
-		System.out.println("-----------------------------------");
-		return teamList;
+		return teamOptional;
 	}
 	
-	public static int teamDetailMenu(){
+	private static int askUserTeamID() {
+		System.out.print("Enter ID: ");
+		int teamID = sc.nextInt();
+		sc.nextLine();
+		return teamID;
+	}
+	
+	
+	private static int askUserToContinue() {
+		while (true) {
+			System.out.println("1- Select Team By ID");
+			System.out.println("0- Return to main menu");
+			System.out.print("selection: ");
+			int opt;
+			try {
+				opt = sc.nextInt();
+				return opt;
+		}
+			catch (InputMismatchException e) {
+				System.out.println("Please enter a numaric value!");
+		}
+			finally {
+				sc.nextLine();
+			}
+		}
+	}
+	
+	
+	// Team Detail Menu
+	public static int teamDetailMenu(String teamName) {
 		while (true){
-			System.out.println("### Check Team Details ###");
-			System.out.println("1-Show Team Details");
+			System.out.println("### " + teamName + " ###");
+			System.out.println("1- Show Team Details");
+			System.out.println("2- Show Team Players");
 			System.out.println("0- Return to main menu");
 			System.out.print("selection: ");
 			int opt ;
@@ -98,10 +136,18 @@ public class TeamModule {
 			}
 		}
 	}
-	public static int teamDetailMenuOptions(int opt, List<Team> teamList){
+	
+	public static int teamDetailMenuOptions(int opt, Team team) {
 		switch (opt){
 			case 1:{ //Show team Details
-				System.out.println("Showing details");
+				System.out.println(team);
+				System.out.println("----------------------------------");
+				teamDetailMenuOptions(teamDetailMenu(team.getTeamName()), team);
+				break;
+			}
+			case 2: { //Show Team Players
+				teamDataBase.getTeamSquad(playerDataBase, team.getId());
+				teamDetailMenuOptions(teamDetailMenu(team.getTeamName()), team);
 				break;
 			}
 			case 0:{
