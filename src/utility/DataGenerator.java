@@ -82,6 +82,7 @@ public class DataGenerator {
 		Team team18 = new Team(teamDB,"Sakaryaspor",12_750_000L );
 		
 		League league1 = new League(leagueDB, "Türkiye Super Lig");
+		
 		league1.getTeamList().addAll(List.of(team1, team2, team3, team4, team5, team6, team7, team8
 				, team9, team10, team11, team12, team13, team14, team15, team16, team17, team18));
 	}
