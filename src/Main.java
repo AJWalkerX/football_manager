@@ -19,7 +19,7 @@ public class Main {
 	private static void startApplication() {
 		int opt = 0;
 		do {
-			opt = TeamModule.teamModule();
+			opt = TeamModule.teamModule(teamDB);
 		}while (opt != 0);
 	}
 }
