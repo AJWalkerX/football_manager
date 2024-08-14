@@ -62,8 +62,8 @@ public class Match extends BaseEntity {
 	public String toString() {
 		return "Match{" + "id=" + getId() +
 				", homeTeamID=" + getHomeTeamID() +
-				", awayTeamID=" + getAwayTeamID() +
 				", homeTeamScore=" + getHomeTeamScore() +
+				", awayTeamID=" + getAwayTeamID() +
 				", awayTeamScore=" + getAwayTeamScore() +
 				", winner='" + getWinner() + '\'' + '}';
 	}

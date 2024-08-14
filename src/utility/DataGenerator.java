@@ -1,10 +1,13 @@
 package utility;
 
+import databases.LeagueDB;
 import databases.PlayerDB;
 import databases.TeamDB;
+import entities.League;
 import entities.Player;
 import entities.Team;
 
+import java.util.List;
 import java.util.Random;
 
 public class DataGenerator {
@@ -56,18 +59,30 @@ public class DataGenerator {
 				teamId++;
 			}
 		}
+	
+	public static void generateTeamsAndLeagues(TeamDB teamDB, LeagueDB leagueDB) {
 		
-		public static void generateTeams(TeamDB teamDB) {
-			
-			Team team1 = new Team(teamDB,"Fenerbahce",null,252_400_000L,1 );
-			Team team2 = new Team(teamDB,"Galatasaray",null,210_500_000L,1 );
-			Team team3 = new Team(teamDB,"Besiktas",null,142_530_000L,1 );
-			Team team4 = new Team(teamDB,"Trabzonspor",null,98_630_000L,1 );
-			Team team5 = new Team(teamDB, "Kocaelispor", null, 45_000_000L, 1 );
-			Team team6 = new Team(teamDB,"Caykur Rizespor",null,32_750_000L,1 );
-			Team team7 = new Team(teamDB,"Samsunspor",null,31_700_000L,1 );
-			Team team8 = new Team(teamDB,"Antalyaspor",null,23_680_000L,1 );
-			Team team9 = new Team(teamDB,"Goztepe",null,15_330_000L,1 );
-			Team team10 = new Team(teamDB,"Adana Demirspor",null,23_400_000L,1 );
-		}
+		Team team1 = new Team(teamDB,"Fenerbahce",252_400_000L );
+		Team team2 = new Team(teamDB,"Galatasaray",210_500_000L );
+		Team team3 = new Team(teamDB,"Besiktas",142_530_000L );
+		Team team4 = new Team(teamDB,"Trabzonspor",98_630_000L );
+		Team team5 = new Team(teamDB,"Kocaelispor",45_000_000L);
+		Team team6 = new Team(teamDB,"Caykur Rizespor",32_750_000L );
+		Team team7 = new Team(teamDB,"Samsunspor",31_700_000L);
+		Team team8 = new Team(teamDB,"Antalyaspor",23_680_000L );
+		Team team9 = new Team(teamDB,"Goztepe",15_330_000L);
+		Team team10 = new Team(teamDB,"Adana Demirspor",23_400_000L );
+		Team team11 = new Team(teamDB,"Alanyaspor",22_460_000L );
+		Team team12 = new Team(teamDB,"Sivasspor",20_780_000L);
+		Team team13 = new Team(teamDB,"Kasimpasa",20_450_000L );
+		Team team14 = new Team(teamDB,"Konyaspor",20_360_000L );
+		Team team15 = new Team(teamDB,"Gaziantepspor",18_180_000L);
+		Team team16 = new Team(teamDB,"Hatayspor",17_980_000L);
+		Team team17 = new Team(teamDB,"Bursaspor",15_300_000L);
+		Team team18 = new Team(teamDB,"Sakaryaspor",12_750_000L );
+		
+		League league1 = new League(leagueDB, "Türkiye Super Lig");
+		league1.getTeamList().addAll(List.of(team1, team2, team3, team4, team5, team6, team7, team8
+				, team9, team10, team11, team12, team13, team14, team15, team16, team17, team18));
+	}
 	}

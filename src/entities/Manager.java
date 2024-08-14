@@ -4,11 +4,24 @@ import databases.ManagerDB;
 
 public class Manager extends Person{
 	static  int idCounter = 0;
+	private Integer teamID;
 	private Integer experience;
+	
+	{
+		this.teamID = -1;
+	}
 	
 	public Manager(ManagerDB managerDB) {
 		super.id = ++idCounter;
 		managerDB.save(this);
+	}
+	
+	public Integer getTeamID() {
+		return teamID;
+	}
+	
+	public void setTeamID(Integer teamID) {
+		this.teamID = teamID;
 	}
 	
 	public Integer getExperience() {
@@ -20,8 +33,13 @@ public class Manager extends Person{
 		this.experience = experience;
 	}
 	
+	
 	@Override
 	public String toString() {
-		return "Manager{" + "id=" + getId() + ", name='" + getName() + '\'' + ", age='" + getAge() + '\'' + ", experience=" + getExperience() + '}';
+		return "Manager{" + "id=" + getId() +
+				", name='" + getName() + '\'' +
+				", age='" + getAge() + '\'' +
+				", teamID=" + getTeamID() +
+				", experience=" + getExperience() + '}';
 	}
 }
