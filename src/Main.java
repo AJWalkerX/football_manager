@@ -1,5 +1,7 @@
 import databases.*;
 import modules.TeamModule;
+import utility.DataGenerator;
+import utility.FileIOReader;
 
 public class Main {
 	private  static ManagerDB managerDB = new ManagerDB();
@@ -8,10 +10,11 @@ public class Main {
 	private static LeagueDB leagueDB = new LeagueDB();
 	public static void main(String[] args) {
 //		DataGenerator.generateRandomPlayers(playerDB);
-//		DataGenerator.generateTeamsAndLeagues(teamDB, leagueDB);
+//		DataGenerator.generateNationalLeagueTeams(teamDB, leagueDB);
 //		DataGenerator.generateManagers(managerDB);
+		
+		FileIOReader.readAllEntities(playerDB,teamDB,leagueDB,managerDB);
 		startApplication();
-	
 	}
 	
 	private static void startApplication() {

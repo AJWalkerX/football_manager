@@ -19,7 +19,8 @@ public class TeamDB extends DatabaseManager<Team> {
 			return;
 		}
 		System.out.println("-------------------- "+team.getTeamName().toUpperCase()+" SQUAD --------------------");
-		playerDB.findAll().stream().filter(player->player.getTeamID().equals(teamId)).forEach(System.out::println);
+		playerDB.findAll().stream().filter(
+				player->player.getTeamID() != null && player.getTeamID().equals(teamId)).forEach(System.out::println);
 	}
 	
 	public List<Team> findTeamByName(TeamDB teamDB,String teamName) {
