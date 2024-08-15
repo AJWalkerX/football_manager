@@ -76,7 +76,6 @@ public class TeamModule {
 				else{
 					System.out.println("Returning to main menu...");
 				}
-				
 				break;
 			}
 			case 0:{

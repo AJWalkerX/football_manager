@@ -17,7 +17,8 @@ public class Main {
 		DataGenerator.generateRandomPlayers(playerDB);
 		DataGenerator.generateTeamsAndLeagues(teamDB, leagueDB);
 		DataGenerator.generateManagers(managerDB);
-		startApplication();
+//		startApplication();
+	
 	}
 	
 	private static void startApplication() {

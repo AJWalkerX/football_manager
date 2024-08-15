@@ -9,6 +9,7 @@ import entities.Manager;
 import entities.Player;
 import entities.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -83,10 +84,20 @@ public class DataGenerator {
 		Team team17 = new Team(teamDB,"Bursaspor",15_300_000L);
 		Team team18 = new Team(teamDB,"Sakaryaspor",12_750_000L );
 		
-		League league1 = new League(leagueDB, "Türkiye Super Lig");
+		League turkishSuperLeague = new League(
+				leagueDB,"Turkish Super League",
+				ERegion.TURKIYE,EDivision.SUPER_LIG_TR,"2024-2025"
+		);
 		
-		league1.getTeamList().addAll(List.of(team1, team2, team3, team4, team5, team6, team7, team8
-				, team9, team10, team11, team12, team13, team14, team15, team16, team17, team18));
+		turkishSuperLeague.getTeamIDList().addAll(
+				List.of(team1.getId(),team2.getId(), team3.getId(),
+				        team4.getId(), team5.getId(), team6.getId(),
+				        team7.getId(), team8.getId(), team9.getId(),
+				        team10.getId(), team10.getId(),team11.getId(),
+				        team12.getId(),team13.getId(), team14.getId(),
+				        team15.getId(), team16.getId(), team17.getId(),
+				        team18.getId()
+				));
 	}
 	public static void generateManagers(ManagerDB managerDB){
 		Manager manager1 = new Manager(managerDB,1,"Jose Mourinho","61",10);
