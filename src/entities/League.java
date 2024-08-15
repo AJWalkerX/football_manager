@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class League extends BaseEntity{
-	static  int leagueIDCounter = 0;
 	private String leagueName;
 	private List<Integer> teamIDList;
 	private ERegion region;
@@ -17,14 +16,14 @@ public class League extends BaseEntity{
 	private String season;
 	
 	public League(LeagueDB leagueDB) {
-		super.id = ++leagueIDCounter;
+		super.id = leagueDB.findAll().size()+1;
 		teamIDList = new ArrayList<>();
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);
 	}
 	
 	public League(LeagueDB leagueDB,String leagueName, ERegion region, EDivision division, String season) {
-		super.id = ++leagueIDCounter;
+		super.id = leagueDB.findAll().size()+1;
 		this.leagueName = leagueName;
 		teamIDList = new ArrayList<>();
 		this.region = region;

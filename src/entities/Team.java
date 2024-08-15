@@ -6,26 +6,22 @@ import utility.FileIOWriter;
 
 
 public class Team extends BaseEntity{
-	static  int idCounter = 0;
 	
 	private String teamName;
 	private Long budget; //takımın elindeki para
 	
 	public Team(TeamDB teamDB) {
-		super.id = ++idCounter;
+		super.id = teamDB.findAll().size()+1;
 		teamDB.save(this);
 	}
 	public Team(TeamDB teamDB,String teamName, Long budget) {
-		id = ++idCounter;
+		super.id = teamDB.findAll().size()+1;
 		this.teamName = teamName;
 		this.budget = budget;
 		teamDB.save(this);
 		FileIOWriter.writeTeamToBin(teamDB);
 	}
 	
-	public static int getIdCounter() {
-		return idCounter;
-	}
 	
 	public String getTeamName() {
 		return teamName;

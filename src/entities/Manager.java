@@ -4,7 +4,6 @@ import databases.ManagerDB;
 import utility.FileIOWriter;
 
 public class Manager extends Person{
-	static  int idCounter = 0;
 	private Integer teamID;
 	private Integer experience;
 	
@@ -13,13 +12,13 @@ public class Manager extends Person{
 	}
 	
 	public Manager(ManagerDB managerDB) {
-		super.id = ++idCounter;
+		super.id = managerDB.findAll().size()+1;
 		managerDB.save(this);
 		FileIOWriter.writeManagerToBin(managerDB);
 	}
 	
 	public Manager(ManagerDB managerDB,Integer teamID, String name, String age, Integer experience) {
-		super.id = ++idCounter;
+		super.id = managerDB.findAll().size()+1;
 		this.teamID = teamID;
 		super.name = name;
 		super.age = age;

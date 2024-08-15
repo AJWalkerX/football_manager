@@ -3,7 +3,6 @@ package entities;
 import databases.MatchDB;
 
 public class Match extends BaseEntity {
-	static  int matchIDCounter = 0;
 	
 	
 	private Integer homeTeamID;
@@ -13,7 +12,7 @@ public class Match extends BaseEntity {
 	private String winner;
 	
 	public Match(MatchDB matchDB) {
-		super.id = ++matchIDCounter;
+		super.id = matchDB.findAll().size()+1;
 		matchDB.save(this);
 	}
 	

@@ -6,7 +6,6 @@ import utility.FileIOReader;
 import utility.FileIOWriter;
 
 public class Player extends Person{
-	static  int idCounter = 0;
 	
 	private Integer teamID;
 	private EPosition position;
@@ -14,7 +13,7 @@ public class Player extends Person{
 	private Long value; // piyasa değeri
 	
 	public Player(PlayerDB playerDB) {
-		super.id = ++idCounter;
+		super.id = playerDB.findAll().size()+1;
 		playerDB.save(this);
 		FileIOWriter.writePlayerToBin(playerDB);
 	}
