@@ -51,15 +51,19 @@ public class TeamModule {
 					String teamName = team.getTeamName();
 					teamDetailMenuOptions(teamDetailMenu(teamName), team);
 				}
-				else{
-					System.out.println("No such team found by this ID!");
-				}
 				break;
 			}
 			case 2:{ //List All Teams
 				System.out.println("--- Lists of All Teams ---");
-				teamDataBase.findAll().stream().map(team -> team.getId() + "- " + team.getTeamName())
-				            .forEach(System.out::println);
+				if (!teamDataBase.findAll().isEmpty()){
+					teamDataBase.findAll().stream().map(team -> team.getId() + "- " + team.getTeamName())
+					            .forEach(System.out::println);
+				}
+				else {
+					System.out.println("List is empty!");
+					System.out.println("-------------------------------");
+					break;
+				}
 				System.out.println("-------------------------------");
 				int userSelection = askUserToContinue();
 				if (userSelection == 1){

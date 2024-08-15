@@ -1,6 +1,7 @@
 package entities;
 
 import databases.TeamDB;
+import utility.FileIOWriter;
 
 
 public class Team extends BaseEntity{
@@ -18,7 +19,7 @@ public class Team extends BaseEntity{
 		this.teamName = teamName;
 		this.budget = budget;
 		teamDB.save(this);
-		
+		FileIOWriter.writeTeamToBin(teamDB);
 	}
 	
 	public static int getIdCounter() {

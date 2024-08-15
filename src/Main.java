@@ -1,12 +1,5 @@
-import databases.LeagueDB;
-import databases.ManagerDB;
-import databases.PlayerDB;
-import databases.TeamDB;
-import entities.League;
-import modules.ManagerModule;
+import databases.*;
 import modules.TeamModule;
-import utility.DataGenerator;
-import utility.DatabaseManager;
 
 public class Main {
 	private  static ManagerDB managerDB = new ManagerDB();
@@ -14,10 +7,10 @@ public class Main {
 	private static TeamDB teamDB = new TeamDB();
 	private static LeagueDB leagueDB = new LeagueDB();
 	public static void main(String[] args) {
-		DataGenerator.generateRandomPlayers(playerDB);
-		DataGenerator.generateTeamsAndLeagues(teamDB, leagueDB);
-		DataGenerator.generateManagers(managerDB);
-//		startApplication();
+//		DataGenerator.generateRandomPlayers(playerDB);
+//		DataGenerator.generateTeamsAndLeagues(teamDB, leagueDB);
+//		DataGenerator.generateManagers(managerDB);
+		startApplication();
 	
 	}
 	

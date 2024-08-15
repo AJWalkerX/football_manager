@@ -1,6 +1,7 @@
 package entities;
 
 import databases.ManagerDB;
+import utility.FileIOWriter;
 
 public class Manager extends Person{
 	static  int idCounter = 0;
@@ -14,6 +15,7 @@ public class Manager extends Person{
 	public Manager(ManagerDB managerDB) {
 		super.id = ++idCounter;
 		managerDB.save(this);
+		FileIOWriter.writeManagerToBin(managerDB);
 	}
 	
 	public Manager(ManagerDB managerDB,Integer teamID, String name, String age, Integer experience) {
@@ -23,6 +25,8 @@ public class Manager extends Person{
 		super.age = age;
 		this.experience = experience;
 		managerDB.save(this);
+		FileIOWriter.writeManagerToBin(managerDB);
+		
 	}
 	
 	public Integer getTeamID() {

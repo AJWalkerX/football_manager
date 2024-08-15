@@ -3,6 +3,7 @@ package entities;
 import databases.LeagueDB;
 import utility.EDivision;
 import utility.ERegion;
+import utility.FileIOWriter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,24 @@ public class League extends BaseEntity{
 	private ERegion region;
 	private EDivision division;
 	private String season;
+	
+	public League(LeagueDB leagueDB) {
+		super.id = ++leagueIDCounter;
+		teamIDList = new ArrayList<>();
+		leagueDB.save(this);
+		FileIOWriter.writeLeagueToBin(leagueDB);
+	}
+	
+	public League(LeagueDB leagueDB,String leagueName, ERegion region, EDivision division, String season) {
+		super.id = ++leagueIDCounter;
+		this.leagueName = leagueName;
+		teamIDList = new ArrayList<>();
+		this.region = region;
+		this.division = division;
+		this.season = season;
+		leagueDB.save(this);
+		FileIOWriter.writeLeagueToBin(leagueDB);
+	}
 	
 	public ERegion getRegion() {
 		return region;
@@ -37,22 +56,6 @@ public class League extends BaseEntity{
 	
 	public void setSeason(String season) {
 		this.season = season;
-	}
-	
-	public League(LeagueDB leagueDB) {
-		super.id = ++leagueIDCounter;
-		teamIDList = new ArrayList<>();
-		leagueDB.save(this);
-	}
-	
-	public League(LeagueDB leagueDB,String leagueName, ERegion region, EDivision division, String season) {
-		super.id = ++leagueIDCounter;
-		this.leagueName = leagueName;
-		teamIDList = new ArrayList<>();
-		this.region = region;
-		this.division = division;
-		this.season = season;
-		leagueDB.save(this);
 	}
 	
 	public List<Integer> getTeamIDList() {

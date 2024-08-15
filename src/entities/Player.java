@@ -2,6 +2,7 @@ package entities;
 
 import databases.PlayerDB;
 import utility.EPosition;
+import utility.FileIOWriter;
 
 public class Player extends Person{
 	static  int idCounter = 0;
@@ -11,13 +12,10 @@ public class Player extends Person{
 	private Integer skillLevel;
 	private Long value; // piyasa değeri
 	
-//	{
-//		this.teamID = -1;
-//	}
-	
 	public Player(PlayerDB playerDB) {
 		super.id = ++idCounter;
 		playerDB.save(this);
+		FileIOWriter.writePlayerToBin(playerDB);
 	}
 	
 	
