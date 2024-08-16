@@ -4,6 +4,8 @@ import databases.ManagerDB;
 import utility.FileIOWriter;
 
 public class Manager extends Person{
+	private String username;
+	private String password;
 	private Integer teamID;
 	private Integer experience;
 	
@@ -17,15 +19,33 @@ public class Manager extends Person{
 		FileIOWriter.writeManagerToBin(managerDB);
 	}
 	
-	public Manager(ManagerDB managerDB,Integer teamID, String name, String age, Integer experience) {
+	public Manager(ManagerDB managerDB, String name, String age,String username,String password, Integer teamID, Integer experience) {
 		super.id = managerDB.findAll().size()+1;
-		this.teamID = teamID;
 		super.name = name;
 		super.age = age;
+		this.username = username;
+		this.password = password;
+		this.teamID = teamID;
 		this.experience = experience;
 		managerDB.save(this);
 		FileIOWriter.writeManagerToBin(managerDB);
 		
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public Integer getTeamID() {
@@ -48,10 +68,15 @@ public class Manager extends Person{
 	
 	@Override
 	public String toString() {
-		return "Manager{" + "id=" + getId() +
+		return "Manager{" +
+				"id=" + getId() +
 				", name='" + getName() + '\'' +
 				", age='" + getAge() + '\'' +
+				", username='" + getUsername() + '\'' +
+				", password='" + getPassword() + '\'' +
 				", teamID=" + getTeamID() +
-				", experience=" + getExperience() + '}';
+				", experience=" + getExperience() +
+				'}';
 	}
+	
 }

@@ -6,7 +6,7 @@ import java.io.*;
 
 public class FileIOWriter {
 	//Kendi dosya konumunu kopyala!!!!
-	private static final File DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\futbol_manager\\file_io");
+	private static final File DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects\\futbol_manager\\file_io");
 	public static void writePlayerToBin(PlayerDB playerDB){
 		File outputFile = new File(DIRECTORY, "playerDB.bin");
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile)))  {

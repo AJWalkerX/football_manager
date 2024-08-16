@@ -1,5 +1,6 @@
 import databases.*;
 import entities.Team;
+import modules.ManagerModule;
 import modules.TeamModule;
 import utility.DataGenerator;
 import utility.FileIOReader;
@@ -10,10 +11,6 @@ public class Main {
 	private static TeamDB teamDB = new TeamDB();
 	private static LeagueDB leagueDB = new LeagueDB();
 	public static void main(String[] args) {
-//		DataGenerator.generateRandomPlayers(playerDB);
-//		DataGenerator.generateNationalLeagueTeams(teamDB, leagueDB);
-//		DataGenerator.generateManagers(managerDB);
-		
 		FileIOReader.readAllEntities(playerDB,teamDB,leagueDB,managerDB);
 		startApplication();
 	}
@@ -21,7 +18,8 @@ public class Main {
 	private static void startApplication() {
 		int opt = 0;
 		do {
-			opt = TeamModule.teamModule(teamDB, playerDB);
+			opt = ManagerModule.managerModule(playerDB,teamDB,managerDB);
+//			opt = TeamModule.teamModule(teamDB, playerDB);
 		}while (opt != 0);
 	}
 }

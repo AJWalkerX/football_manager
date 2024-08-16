@@ -22,12 +22,14 @@ public class League extends BaseEntity{
 		FileIOWriter.writeLeagueToBin(leagueDB);
 	}
 	
-	public League(LeagueDB leagueDB,String leagueName, ERegion region, EDivision division, String season) {
+	public League(LeagueDB leagueDB,String leaugeName,ERegion region,EDivision division,String season,
+	              ArrayList<Integer> teamIDList){
+		
 		super.id = leagueDB.findAll().size()+1;
-		this.leagueName = leagueName;
-		teamIDList = new ArrayList<>();
-		this.region = region;
-		this.division = division;
+		this.teamIDList = teamIDList;
+		this.leagueName=leaugeName;
+		this.region=region;
+		this.division=division;
 		this.season = season;
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);

@@ -63,7 +63,7 @@ public class DataGenerator {
 		}
 	}
 	
-	public static void generateNationalLeagueTeams(TeamDB teamDB, LeagueDB leagueDB) {
+	public static void generateTeams(TeamDB teamDB, LeagueDB leagueDB) {
 		
 		Team team1 = new Team(teamDB,"Fenerbahce",252_400_000L );
 		Team team2 = new Team(teamDB,"Galatasaray",210_500_000L );
@@ -83,32 +83,38 @@ public class DataGenerator {
 		Team team16 = new Team(teamDB,"Hatayspor",17_980_000L);
 		Team team17 = new Team(teamDB,"Bursaspor",15_300_000L);
 		Team team18 = new Team(teamDB,"Sakaryaspor",12_750_000L );
-		League turkishSuperLeague = new League(leagueDB,"Turkish Super League",ERegion.TURKIYE,EDivision.SUPER_LIG_TR,"2024-2025");
 		
-		turkishSuperLeague.getTeamList().addAll(List.of(team1.getId(),team2.getId(),team3.getId(),team4.getId(),team5.getId(),team6.getId(),team7.getId(),
-		                                                  team8.getId(),team9.getId(),team10.getId(),team10.getId(),team11.getId(),team12.getId(),team13.getId(),team14.getId(),team15.getId(),team16.getId(),
-		                                                  team17.getId(),team18.getId()));
 		
 	}
 	
+	public static void generateLeagues(LeagueDB leagueDB) {
+		ArrayList<Integer> trSuperLeagueArrayList =
+				new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18));
+		
+		League turkishSuperLeague =
+				new League(leagueDB, "Turkish Super League", ERegion.TURKIYE, EDivision.SUPER_LIG_TR, "2024-2025",
+				           trSuperLeagueArrayList);
+	}
+	
 	public static void generateManagers(ManagerDB managerDB){
-		Manager manager1 = new Manager(managerDB,1,"Jose Mourinho","61",10);
-		Manager manager2 = new Manager(managerDB,2,"Okan Buruk","50",3);
-		Manager manager3 = new Manager(managerDB,3,"Giovanni Van Brockhorst","49",8);
-		Manager manager4 = new Manager(managerDB,4,"Abdullah Avci","61",4);
-		Manager manager5 = new Manager(managerDB,5,"Ertugrul Saglam","54",7);
-		Manager manager6 = new Manager(managerDB,6,"Ilhan Palut","47",8);
-		Manager manager7 = new Manager(managerDB,7,"Thoman Reis","50",6);
-		Manager manager8 = new Manager(managerDB,8,"Alex De Souza","46",7);
-		Manager manager9 = new Manager(managerDB,9,"Stanimir Stoilov","57",6);
-		Manager manager10 = new Manager(managerDB,10,"Michael Valkanis","49",6);
-		Manager manager11 = new Manager(managerDB,11,"Fatih Tekke","46",7);
-		Manager manager12 = new Manager(managerDB,12,"Bulent Uygun","53",8);
-		Manager manager13 = new Manager(managerDB,13,"Sami Ugurlu","47",6);
-		Manager manager14 = new Manager(managerDB,14,"Aleksandar Stanojevic","50",6);
-		Manager manager15 = new Manager(managerDB,15,"Selcuk Inan","39",3);
-		Manager manager16 = new Manager(managerDB,16,"Ozhan Pulat","39",5);
-		Manager manager17 = new Manager(managerDB,17,"Pablo Batalla","40",7);
-		Manager manager18 = new Manager(managerDB,18,"Tuncay Sanli","42",6);
+		final String password = "123456";
+		Manager manager1 = new Manager(managerDB,"Jose Mourinho","61","josemourinho",password,1,10);
+		Manager manager2 = new Manager(managerDB,"Okan Buruk","50","okanburuk",password,2,3);
+		Manager manager3 = new Manager(managerDB,"Giovanni Van Brockhorst","49","giovanni",password,3,8);
+		Manager manager4 = new Manager(managerDB,"Abdullah Avci","61","abdullahavci",password,4,4);
+		Manager manager5 = new Manager(managerDB,"Ertugrul Saglam","54","ertugrulsaglam",password,5,7);
+		Manager manager6 = new Manager(managerDB,"Ilhan Palut","47","ilhanpalut",password,6,7);
+		Manager manager7 = new Manager(managerDB,"Thoman Reis","46","thomanreis",password,7,7);
+		Manager manager8 = new Manager(managerDB,"Alex De Souza","46","alexdesouza",password,8,8);
+		Manager manager9 = new Manager(managerDB,"Stanimir Stoilov","57","stanimirstoilov",password,9,6);
+		Manager manager10 = new Manager(managerDB,"Michael Valkanis","49","michaelvalkanis",password,10,6);
+		Manager manager11 = new Manager(managerDB,"Fatih Tekke","46","fatihtekke",password,11,7);
+		Manager manager12 = new Manager(managerDB,"Bulent Uygun","53","bulentuygun",password,12,8);
+		Manager manager13 = new Manager(managerDB,"Sami Ugurlu","47","samiugurlu",password,13,6);
+		Manager manager14 = new Manager(managerDB,"Aleksandar Stanojevic","50","aleksandr",password,14,6);
+		Manager manager15 = new Manager(managerDB,"Selcuk Inan","39","selcukinan",password,15,3);
+		Manager manager16 = new Manager(managerDB,"Ozhan Pulat","39","ozhanpulat",password,16,5);
+		Manager manager17 = new Manager(managerDB,"Pablo Batalla","40","pablobatalla",password,17,7);
+		Manager manager18 = new Manager(managerDB,"Tuncay Sanli","42","tuncaysanli",password,18,6);
 	}
 }
