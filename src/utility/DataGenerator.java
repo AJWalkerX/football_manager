@@ -54,7 +54,7 @@ public class DataGenerator {
 				}
 				player.setName(FIRST_NAMES[random.nextInt(0, FIRST_NAMES.length)] + " " + LAST_NAMES[random.nextInt(0, LAST_NAMES.length)]);
 				player.setValue(random.nextLong(500_000, 45_000_000));
-				player.setSkillLevel(random.nextInt(3, 11));
+				player.setSkillLevel(random.nextInt(25, 101));
 				player.setAge(String.valueOf(random.nextInt(17, 37)));
 				player.setTeamID(teamId);
 				

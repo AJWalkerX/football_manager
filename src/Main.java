@@ -4,7 +4,11 @@ import modules.ManagerModule;
 import modules.TeamModule;
 import utility.DataGenerator;
 import utility.FileIOReader;
-
+/*
+ManagerModule yazalım. Menajer id şifre ile giriş yapsın, kulüp görüntülemesi yaparken kendi kulübünü detaylı görüntülesin,
+diğer kulüpleri özet bilgiyle görüntüleyebilsin. Ayrıca başka kulüp futbolcularını özet bilgileriyle görüntüleyebilirken,
+kendi kulübünün futbolcularını detaylı görüntüleyebilsin.
+* */
 public class Main {
 	private  static ManagerDB managerDB = new ManagerDB();
 	private static PlayerDB playerDB = new PlayerDB();

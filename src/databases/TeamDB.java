@@ -1,5 +1,6 @@
 package databases;
 
+import entities.Manager;
 import entities.Team;
 import utility.DatabaseManager;
 
@@ -42,5 +43,28 @@ public class TeamDB extends DatabaseManager<Team> {
 	}
 	public Optional<Team> getTeamByTeamID(TeamDB teamDB,int teamID) {
 		return teamDB.veriListesi.stream().filter(team -> team.getId() == teamID).findFirst();
+	}
+	
+	public void getRivalTeamSquad(Manager manager, int teamId, PlayerDB playerDB){
+		Optional<Team> teamOpt = veriListesi.stream()
+		                                    .filter(team -> !team.getId().equals(manager.getTeamID()))
+		                                    .filter(team -> team.getId().equals(teamId)).findAny();
+		if(teamOpt.isPresent()){
+			Team team = teamOpt.get();
+			System.out.println("-------- " +team.getTeamName().toUpperCase()+" --------");
+			playerDB.findAll().stream().filter(player->player.getTeamID()!=null && player.getTeamID()==(teamId))
+			        .map(player -> "id="+player.getId()+"  name='"+player.getName()+"'\t\tage="+player.getAge())
+			        .forEach(System.out::println);
+			return;
+		}
+		System.out.println("You either trying to get your own team squad or the team with that id does not exist.");
+	}
+	
+	public List<Team> getRivalTeams(Manager manager){
+		List<Team> rivalTeams = veriListesi.stream().filter(team->!team.getId().equals(manager.getTeamID()))
+		                                   .toList();
+		System.out.println("----- RIVAL TEAMS -----");
+		rivalTeams.stream().map(team->team.getId()+"\t"+team.getTeamName()).forEach(System.out::println);
+		return rivalTeams;
 	}
 }

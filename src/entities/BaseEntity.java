@@ -5,8 +5,8 @@ import java.io.Serializable;
 public abstract class BaseEntity implements Serializable {
     
     
-    protected int id;
-    public int getId() {
+    protected Integer id;
+    public Integer getId() {
         return id;
     }
 }

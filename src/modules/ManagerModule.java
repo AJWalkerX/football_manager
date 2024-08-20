@@ -4,30 +4,40 @@ import databases.ManagerDB;
 import databases.PlayerDB;
 import databases.TeamDB;
 import entities.Manager;
+import entities.Player;
+import entities.Team;
 
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
 public class ManagerModule {
+	//ManagerModule yazalım. Menajer id şifre ile giriş yapsın, kulüp görüntülemesi yaparken kendi kulübünü detaylı
+	// görüntülesin,
+	// diğer kulüpleri özet bilgiyle görüntüleyebilsin. Ayrıca başka kulüp futbolcularını özet bilgileriyle
+	// görüntüleyebilirken,
+	// kendi kulübünün futbolcularını detaylı görüntüleyebilsin.
+	//bağlam menüsü var
+	
 	private static Scanner sc = new Scanner(System.in);
-	private static TeamDB teamDataBase;
-	private static PlayerDB playerDataBase;
-	private static ManagerDB managerDataBase;
+	private static TeamDB teamDB;
+	private static PlayerDB playerDB;
+	private static ManagerDB managerDB;
 	private static Optional<Manager> managerOptional = Optional.empty();
 	
-	public static int managerModule(PlayerDB playerDB, TeamDB teamDB, ManagerDB managerDB){
-		playerDataBase = playerDB;
-		teamDataBase = teamDB;
-		managerDataBase = managerDB;
+	public static int managerModule(PlayerDB playerDatabase, TeamDB teamDatabase, ManagerDB managerDatabase) {
+		playerDB = playerDatabase;
+		teamDB = teamDatabase;
+		managerDB = managerDatabase;
 		int opt = 0;
-		opt = managerModuleMenuLoginOptions(managerModuleLoginMenu());
+		opt = managerModuleMenuOptions(managerModuleMenu());
 		return opt;
 	}
 	
-	private static int managerModuleLoginMenu() {
+	public static int managerModuleMenu() {
 		while (true) {
-			System.out.println("### MANAGER LOGIN MENU ###");
+			System.out.println("### MANAGER  LOGIN MENU ###");
 			System.out.println("1- Login");
 			System.out.println("0- Return");
 			System.out.print("selection: ");
@@ -44,84 +54,282 @@ public class ManagerModule {
 			}
 		}
 	}
-	private static int managerModuleMenuLoginOptions(int opt){
-			switch (opt){
-				case 1:{ //Manager Login
-					loginManager();
-					break;
-				}
-				case 0:{
-					System.out.println("gülü gülü...");
-					return opt;
-					
-				}
-				default:
-					System.out.println("Please enter a valid value!");
-			}
-			return opt;
-	}
 	
-	private static void loginManager() {
-		int attemptCount = 0;
-		while (attemptCount != 3){
-			System.out.print("username: ");
-			String username = sc.nextLine();
-			System.out.print("password: ");
-			String password = sc.nextLine();
-			Optional<Manager> manager = managerDataBase.findByUsernameAndPassword(username,password);
-			if (manager.isPresent()){
-				System.out.println("\u001B[32mSuccessfully logged in!\u001B[0m");
-				managerOptional = manager;
-				managerModuleMenuOptions(managerModuMenu());
-				return;
-			}
-			else{
-				attemptCount++;
-				System.out.println("\u001B[33m");
-				System.out.println("Maximum 3 attempts available.");
-				System.out.println("Wrong Username or Password. Attempt "+ attemptCount);
-				if (attemptCount == 3){
-					System.out.println("Wrong password attempt has been made 3 times! Try again Later.");
-				}
-				System.out.println("\u001B[0m");
-			}
+	private static int managerModuleMenuOptions(int opt) {
+		switch (opt) {
+			case 1:
+				loginManager();
+				managerMainMenuOptions(managerMainMenu());
+				break;
+			case 0:
+				System.out.println("See you later.");
+				return opt;
+			default:
+				System.out.println("Please enter a valid value!");
 		}
+		return opt;
 	}
 	
-	private static int managerModuMenu(){
+	private static int managerMainMenu() {
 		while (true) {
-			System.out.println("### MANAGER MENU ###");
-			System.out.println("1- Login");
-			System.out.println("0- Logout");
-			System.out.print("selection: ");
-			int opt;
+			System.out.println("#### MANAGER MAIN MENU");
+			System.out.println("1- Go to My team");
+			System.out.println("2- All teams in the league");
+			System.out.println("0- Log out");
+			System.out.print("Selection: ");
+			
 			try {
-				opt = sc.nextInt();
+				int opt = sc.nextInt();
 				return opt;
 			}
-			catch (InputMismatchException e) {
-				System.out.println("Please enter a numaric value!");
+			catch (Exception e) {
+				System.out.println("Please enter valid input.");
 			}
 			finally {
 				sc.nextLine();
 			}
 		}
-		
 	}
-	private static int managerModuleMenuOptions(int opt){
-		switch (opt){
-			case 1:{
+	
+	private static int managerMainMenuOptions(int opt) {
+		switch (opt) {
+			case 1: //manager Home menu
+				managerHomeMenuOptions(managerHomeMenu());
+				managerMainMenuOptions(managerMainMenu());
 				break;
-			}
-			case 0:{
-				System.out.println("Returning to cart curt");
+			case 2: //All teams in league menu
+				managerAwayMenuOptions(managerAwayMenu());
+				managerMainMenuOptions(managerMainMenu());
+				
+				break;
+			case 0:
+				System.out.println("Loggin out");
 				managerOptional = Optional.empty();
 				return opt;
-				
-			}
 			default:
-				System.out.println("Please enter a valid value!");
+				System.out.println("Please make a choice between given options.");
+				managerMainMenuOptions(managerMainMenu());
+			
 		}
 		return opt;
+	}
+	
+	private static int managerAwayMenu() {
+		int opt = 0;
+		System.out.println("1- Display rival teams");
+		System.out.println("2- Display rival player info");
+		System.out.println("0- Return to manager main menu");
+		System.out.print("Selection: ");
+		try {
+			opt = sc.nextInt();
+		}
+		catch (Exception e) {
+			System.out.println("Please enter valid input.");
+			managerAwayMenu();
+		}
+		finally {
+			sc.nextLine();
+		}
+		return opt;
+	}
+	
+	private static int managerAwayMenuOptions(int opt) {
+		if (managerOptional.isPresent()) {
+			Manager manager = managerOptional.get();
+			switch (opt) {
+				case 1: //display other teams in the league
+					List<Team> rivalTeams = teamDB.getRivalTeams(manager);
+					int teamId = getRivalTeamIdMenuOptions(getRivelTeamIdMenu());
+					Optional<Team> teamByTeamID = teamDB.getTeamByTeamID(rivalTeams, teamId);
+					if (teamByTeamID.isPresent()) {
+						teamDB.getRivalTeamSquad(manager, teamId, playerDB);
+					}
+					managerAwayMenuOptions(managerAwayMenu());
+					break;
+				case 2: //display player
+					dispLayRivalPlayerInfo(manager);
+					managerAwayMenuOptions(managerAwayMenu());
+					break;
+				case 0:
+					System.out.println("Returning to manager main menu");
+					managerMainMenuOptions(managerMainMenu());
+					return opt;
+				default:
+					System.out.println("Please make a choice between given options.");
+					managerAwayMenuOptions(managerAwayMenu());
+			}
+			
+		}
+		else {
+			System.out.println("404");
+		}
+		return opt;
+	}
+	
+	private static int getRivelTeamIdMenu() {
+		int opt = -1;
+		while (true) {
+			try {
+				System.out.println("1-Display team info");
+				System.out.println("0-Return to previous menu");
+				System.out.print("Selection: ");
+				opt = sc.nextInt();
+				return opt;
+			}
+			catch (Exception e) {
+				System.out.println("Please enter valid input.");
+			}
+			finally {
+				sc.nextLine();
+			}
+		}
+	}
+	
+	private static int getRivalTeamIdMenuOptions(int opt) {
+		int teamId = 0;
+		switch (opt) {
+			case 1:
+				System.out.print("Team id: ");
+				try {
+					teamId = sc.nextInt();
+					return teamId;
+				}
+				catch (Exception e) {
+					System.out.println("Please enter valid input.");
+					getRivalTeamIdMenuOptions(getRivelTeamIdMenu());
+				}
+				finally {
+					sc.nextLine();
+				}
+				break;
+			case 0:
+				System.out.println("Returning to manager Away Menu");
+				managerAwayMenuOptions(managerAwayMenu());
+		}
+		return teamId;
+	}
+	
+	private static void dispLayRivalPlayerInfo(Manager manager) {
+		Optional<Player> playerOpt = getPlayer();
+		if (playerOpt.isPresent()) {
+			Player player = playerOpt.get();
+			if (!player.getTeamID().equals(manager.getTeamID())) {
+				System.out.println("-----------------");
+				System.out.println("id=" + player.getId() + ", name='" + player.getName() + "', age=" + player.getAge() + "', teamID=" + player.getTeamID());
+				System.out.println("-----------------");
+			}
+			else {
+				System.out.println("Player is on your team! You can show player details on your team Menu...");
+			}
+		}
+		else {
+			System.out.println("There is no player in database with id you've entered.\n");
+		}
+	}
+	
+	private static int managerHomeMenu() {
+		int opt = 0;
+		System.out.println("1- Display my team");
+		System.out.println("2- Display player");
+		System.out.println("0- Return to manager main menu");
+		System.out.print("Selection: ");
+		try {
+			opt = sc.nextInt();
+		}
+		catch (Exception e) {
+			System.out.println("Please enter valid input.");
+			managerHomeMenu();
+		}
+		finally {
+			sc.nextLine();
+		}
+		return opt;
+	}
+	
+	private static int managerHomeMenuOptions(int opt) {
+		if (managerOptional.isPresent()) {
+			Manager manager = managerOptional.get();
+			switch (opt) {
+				case 1: //Display manager team squad
+					teamDB.getTeamSquad(playerDB, manager.getTeamID());
+					managerHomeMenuOptions(managerHomeMenu());
+					break;
+				case 2: //Display player info (detailed)
+					displayDetailedPlayerInfo(manager);
+					managerHomeMenuOptions(managerHomeMenu());
+					break;
+				case 0:
+					System.out.println("Returning to manager main menu");
+					return opt;
+				default:
+					System.out.println("Please make a choice between given options.");
+					managerHomeMenuOptions(managerHomeMenu());
+			}
+		}
+		else {
+			System.out.println("404 ERROR"); //Bu gelirse kurulan yapida sikinti var demek.
+		}
+		return opt;
+		
+	}
+	
+	private static void displayDetailedPlayerInfo(Manager manager) {
+		Optional<Player> playerOpt = getPlayer();
+		if (playerOpt.isPresent()) {
+			if (playerOpt.get().getTeamID().equals(manager.getTeamID())) {
+				System.out.println("-----------------");
+				System.out.println(playerOpt.get());
+				System.out.println("-----------------");
+			}
+			else {
+				System.out.println("No player found on our squad with id you've entered.");
+			}
+		}
+		else {
+			System.out.println("There is no player in database with id you've entered.\n");
+		}
+	}
+	
+	private static Optional<Player> getPlayer() {
+		System.out.print("Player id: ");
+		int id = 0;
+		try {
+			id = sc.nextInt();
+		}
+		catch (Exception e) {
+			System.out.println("Please enter valid input.");
+			managerHomeMenuOptions(managerHomeMenu());
+		}
+		finally {
+			sc.nextLine();
+		}
+		return playerDB.findByID(id);
+	}
+	
+	private static Optional<Manager> loginManager() {
+		int count = 0;
+		while (true) {
+			count++;
+			System.out.print("Username: ");
+			String username = sc.nextLine();
+			System.out.print("Password: ");
+			String password = sc.nextLine();
+			Optional<Manager> manager1 = managerDB.findByUsernameAndPassword(username, password);
+			if (manager1.isPresent()) {
+				managerOptional = manager1;
+				System.out.println("You've succesfully logged in.");
+				return manager1;
+			}
+			else {
+				System.out.println("Password or username is wrong. You have" + (3 - count) + " attempts left.");
+			}
+			
+			if (count == 3) {
+				System.out.println("You exceeded your try limit. Returning to main menu.");
+				managerModuleMenuOptions(managerModuleMenu());
+			}
+		}
+		
+		
 	}
 }
