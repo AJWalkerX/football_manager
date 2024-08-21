@@ -4,7 +4,7 @@ import databases.MatchDB;
 
 public class Match extends BaseEntity {
 	
-	
+	//TODO: MatchTarihi, leagueID fieldlarını ekle!
 	private Integer homeTeamID;
 	private Integer awayTeamID;
 	private Integer homeTeamScore;

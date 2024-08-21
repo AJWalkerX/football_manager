@@ -54,6 +54,7 @@ public class FileIOReader {
 		}
 	}
 	
+	
 	public static void readAllEntities(PlayerDB playerDB,TeamDB teamDB,LeagueDB leagueDB,ManagerDB managerDB){
 		//oyuncular icin
 		File inputFilePlayer = new File(DIRECTORY, "playerDB.bin");

@@ -5,8 +5,12 @@ import utility.EDivision;
 import utility.ERegion;
 import utility.FileIOWriter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class League extends BaseEntity{
 	private String leagueName;
@@ -14,25 +18,32 @@ public class League extends BaseEntity{
 	private ERegion region;
 	private EDivision division;
 	private String season;
+	private final LocalDate BEGINNING_SEASON_DATE;
+//	private final LocalDate END_SEASON_DATE; //TODO: Bunu daha sonra eklemek gerekbilir!
 	
-	public League(LeagueDB leagueDB) {
+	public League(LeagueDB leagueDB, LocalDate BEGINNING_SEASON_DATE) {
 		super.id = leagueDB.findAll().size()+1;
+		this.BEGINNING_SEASON_DATE = BEGINNING_SEASON_DATE;
 		teamIDList = new ArrayList<>();
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);
 	}
 	
 	public League(LeagueDB leagueDB,String leaugeName,ERegion region,EDivision division,String season,
-	              ArrayList<Integer> teamIDList){
-		
+	              ArrayList<Integer> teamIDList, LocalDate BEGINNING_SEASON_DATE){
 		super.id = leagueDB.findAll().size()+1;
 		this.teamIDList = teamIDList;
 		this.leagueName=leaugeName;
 		this.region=region;
 		this.division=division;
 		this.season = season;
+		this.BEGINNING_SEASON_DATE = BEGINNING_SEASON_DATE;
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);
+	}
+	
+	public LocalDate getBeginningOfSeasonDate() {
+		return BEGINNING_SEASON_DATE;
 	}
 	
 	public ERegion getRegion() {
@@ -87,6 +98,8 @@ public class League extends BaseEntity{
 				", teamIDList=" + teamIDList +
 				", region=" + getRegion() +
 				", division=" + getDivision() +
-				", season='" + getSeason() + '\'' + '}';
+				", season='" + getSeason() + '\'' +
+				", BeginningOfSeasonDate=" + getBeginningOfSeasonDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))+ '\''
+				+ '}';
 	}
 }

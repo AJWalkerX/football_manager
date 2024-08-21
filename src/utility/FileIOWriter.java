@@ -3,9 +3,13 @@ package utility;
 import databases.*;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class FileIOWriter {
 	//Kendi dosya konumunu kopyala!!!!
+	
 	private static final File DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects\\futbol_manager\\file_io");
 	public static void writePlayerToBin(PlayerDB playerDB){
 		File outputFile = new File(DIRECTORY, "playerDB.bin");
@@ -48,35 +52,10 @@ public class FileIOWriter {
 	}
 	
 	
-	
-	
-//	public static void nesneleriDisariYazdir(PlayerDB playerDB, TeamDB teamDB, LeagueDB leagueDB,ManagerDB managerDB) {
-//		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("ogrenciler.bin"))) {
-//			oos.writeObject(playerDB.findAll());
-//
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
-//		//Takimlar icin
-//		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("takimlar.bin"))) {
-//			oos.writeObject(teamDB.findAll());
-//
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
-//		//Ligler icin
-//		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("ligler.bin"))) {
-//			oos.writeObject(leagueDB.findAll());
-//
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
-//		//Menajerler icin
-//		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("managers.bin"))) {
-//			oos.writeObject(managerDB.findAll());
-//
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
+	public static void saveAllEntities(PlayerDB playerDB, TeamDB teamDB, LeagueDB leagueDB,ManagerDB managerDB) {
+		writePlayerToBin(playerDB);
+		writeLeagueToBin(leagueDB);
+		writeTeamToBin(teamDB);
+		writeManagerToBin(managerDB);
+	}
 }
