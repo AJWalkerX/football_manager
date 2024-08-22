@@ -19,9 +19,10 @@ public class Main {
 	private static PlayerDB playerDB = new PlayerDB();
 	private static TeamDB teamDB = new TeamDB();
 	private static LeagueDB leagueDB = new LeagueDB();
+	private static MatchDB matchDB = new MatchDB();
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
-		FileIOReader.readAllEntities(playerDB,teamDB,leagueDB,managerDB);
+		FileIOReader.readAllEntities(playerDB,teamDB,leagueDB,managerDB,matchDB);
 		startApplication();
 	}
 	
@@ -38,7 +39,7 @@ public class Main {
 					break;
 				case 0:
 					System.out.println("Exiting application...");
-					FileIOWriter.saveAllEntities(playerDB,teamDB,leagueDB,managerDB);
+					FileIOWriter.saveAllEntities(playerDB,teamDB,leagueDB,managerDB,matchDB);
 					break;
 				default:
 					System.out.println("Invalid option. Please try again.");

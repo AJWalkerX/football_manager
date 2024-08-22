@@ -1,19 +1,41 @@
 package entities;
 
 import databases.MatchDB;
+import utility.FileIOWriter;
+
+import java.time.LocalDate;
 
 public class Match extends BaseEntity {
 	
-	//TODO: MatchTarihi, leagueID fieldlarını ekle!
 	private Integer homeTeamID;
 	private Integer awayTeamID;
 	private Integer homeTeamScore;
 	private Integer awayTeamScore;
 	private String winner;
+	private LocalDate MatchDate;
+	private Integer leagueID;
 	
 	public Match(MatchDB matchDB) {
 		super.id = matchDB.findAll().size()+1;
 		matchDB.save(this);
+		FileIOWriter.writeMatchToBin(matchDB);
+	}
+	
+	public Match(MatchDB matchDB,Integer homeTeamID, Integer awayTeamID, Integer homeTeamScore, Integer awayTeamScore, String winner
+			, LocalDate matchDate, Integer leagueID) {
+		
+		super.id = matchDB.findAll().size()+1;
+		
+		this.homeTeamID = homeTeamID;
+		this.awayTeamID = awayTeamID;
+		this.homeTeamScore = homeTeamScore;
+		this.awayTeamScore = awayTeamScore;
+		this.winner = winner;
+		MatchDate = matchDate;
+		this.leagueID = leagueID;
+		
+		matchDB.save(this);
+		FileIOWriter.writeMatchToBin(matchDB);
 	}
 	
 	public Integer getHomeTeamID() {
@@ -56,6 +78,23 @@ public class Match extends BaseEntity {
 		this.winner = winner;
 	}
 	
+	public LocalDate getMatchDate() {
+		return MatchDate;
+	}
+	
+	public void setMatchDate(LocalDate matchDate) {
+		MatchDate = matchDate;
+	}
+	
+	public Integer getLeagueID() {
+		return leagueID;
+	}
+	
+	public void setLeagueID(Integer leagueID) {
+		this.leagueID = leagueID;
+	}
+	
+	
 	
 	@Override
 	public String toString() {
@@ -64,6 +103,8 @@ public class Match extends BaseEntity {
 				", homeTeamScore=" + getHomeTeamScore() +
 				", awayTeamID=" + getAwayTeamID() +
 				", awayTeamScore=" + getAwayTeamScore() +
-				", winner='" + getWinner() + '\'' + '}';
+				", winner='" + getWinner() + '\'' +
+				", MatchDate=" + getMatchDate() +
+				", leagueID=" + getLeagueID() + '}';
 	}
 }

@@ -1,10 +1,7 @@
 package utility;
 
 import databases.*;
-import entities.League;
-import entities.Manager;
-import entities.Player;
-import entities.Team;
+import entities.*;
 
 import java.io.*;
 import java.util.List;
@@ -53,9 +50,19 @@ public class FileIOReader {
 			e.printStackTrace();
 		}
 	}
+	public static void readMatchFromBin(MatchDB matchDB) {
+		File inputFile = new File(DIRECTORY, "matchDB.bin");
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
+			matchDB.saveAll((List<Match>) ois.readObject());
+			
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
-	public static void readAllEntities(PlayerDB playerDB,TeamDB teamDB,LeagueDB leagueDB,ManagerDB managerDB){
+	public static void readAllEntities(PlayerDB playerDB,TeamDB teamDB,LeagueDB
+			leagueDB,ManagerDB managerDB, MatchDB matchDB){
 		//oyuncular icin
 		File inputFilePlayer = new File(DIRECTORY, "playerDB.bin");
 		if(inputFilePlayer.exists()){
@@ -70,8 +77,6 @@ public class FileIOReader {
 		}else{
 			DataGenerator.generateLeagues(leagueDB);
 		}
-		
-		
 		//takimlar icin
 		File inputFileTeam = new File(DIRECTORY, "teamDB.bin");
 		if(inputFileTeam.exists()){
@@ -79,7 +84,6 @@ public class FileIOReader {
 		}else{
 			DataGenerator.generateTeams(teamDB, leagueDB);
 		}
-		
 		//menajerler icin
 		File inputFileManager = new File(DIRECTORY, "managerDB.bin");
 		if(inputFileManager.exists()){
@@ -87,5 +91,13 @@ public class FileIOReader {
 		}else{
 			DataGenerator.generateManagers(managerDB);
 		}
+		//Match icin
+		File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
+		if(inputFileMatch.exists()){
+			readMatchFromBin(matchDB);
+		}else{
+			DataGenerator.generateManagers(managerDB);
+		}
+		
 	}
 }

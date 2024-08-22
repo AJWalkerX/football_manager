@@ -51,11 +51,22 @@ public class FileIOWriter {
 		}
 	}
 	
+	public static void writeMatchToBin(MatchDB matchDB){
+		File outputFile = new File(DIRECTORY, "matchDB.bin");
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile))) {
+			oos.writeObject(matchDB.findAll());
+			
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
-	public static void saveAllEntities(PlayerDB playerDB, TeamDB teamDB, LeagueDB leagueDB,ManagerDB managerDB) {
+	public static void saveAllEntities(PlayerDB playerDB, TeamDB teamDB,
+	                                   LeagueDB leagueDB,ManagerDB managerDB, MatchDB matchDB) {
 		writePlayerToBin(playerDB);
 		writeLeagueToBin(leagueDB);
 		writeTeamToBin(teamDB);
 		writeManagerToBin(managerDB);
+		writeMatchToBin(matchDB);
 	}
 }
