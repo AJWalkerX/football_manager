@@ -1,4 +1,4 @@
-package utility;
+package utility.database_foundation;
 
 import entities.BaseEntity;
 

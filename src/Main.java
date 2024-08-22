@@ -1,8 +1,10 @@
 import databases.*;
-import entities.Team;
+import entities.League;
+import models.DatabaseModel;
 import modules.ManagerModule;
+import modules.MatchModule;
 import modules.TeamModule;
-import utility.DataGenerator;
+import utility.data.DataGenerator;
 import utility.FileIOReader;
 import utility.FileIOWriter;
 
@@ -15,14 +17,10 @@ diğer kulüpleri özet bilgiyle görüntüleyebilsin. Ayrıca başka kulüp fut
 kendi kulübünün futbolcularını detaylı görüntüleyebilsin.
 * */
 public class Main {
-	private  static ManagerDB managerDB = new ManagerDB();
-	private static PlayerDB playerDB = new PlayerDB();
-	private static TeamDB teamDB = new TeamDB();
-	private static LeagueDB leagueDB = new LeagueDB();
-	private static MatchDB matchDB = new MatchDB();
+	static DatabaseModel databaseModel = new DatabaseModel();
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
-		FileIOReader.readAllEntities(playerDB,teamDB,leagueDB,managerDB,matchDB);
+		FileIOReader.readAllEntities(databaseModel);
 		startApplication();
 	}
 	
@@ -32,14 +30,14 @@ public class Main {
 			opt = mainMenu();
 			switch (opt) {
 				case 1:
-					opt = ManagerModule.managerModule(playerDB, teamDB, managerDB);
+					opt = ManagerModule.managerModule(databaseModel);
 					break;
 				case 2:
-					opt = TeamModule.teamModule(teamDB, playerDB);
+					opt = TeamModule.teamModule(databaseModel);
 					break;
 				case 0:
 					System.out.println("Exiting application...");
-					FileIOWriter.saveAllEntities(playerDB,teamDB,leagueDB,managerDB,matchDB);
+					FileIOWriter.saveAllEntities(databaseModel);
 					break;
 				default:
 					System.out.println("Invalid option. Please try again.");

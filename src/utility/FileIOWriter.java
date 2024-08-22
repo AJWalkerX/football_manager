@@ -1,6 +1,7 @@
 package utility;
 
 import databases.*;
+import models.DatabaseModel;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -61,12 +62,11 @@ public class FileIOWriter {
 		}
 	}
 	
-	public static void saveAllEntities(PlayerDB playerDB, TeamDB teamDB,
-	                                   LeagueDB leagueDB,ManagerDB managerDB, MatchDB matchDB) {
-		writePlayerToBin(playerDB);
-		writeLeagueToBin(leagueDB);
-		writeTeamToBin(teamDB);
-		writeManagerToBin(managerDB);
-		writeMatchToBin(matchDB);
+	public static void saveAllEntities(DatabaseModel databaseModel) {
+		writePlayerToBin(databaseModel.playerDB);
+		writeLeagueToBin(databaseModel.leagueDB);
+		writeTeamToBin(databaseModel.teamDB);
+		writeManagerToBin(databaseModel.managerDB);
+		writeMatchToBin(databaseModel.matchDB);
 	}
 }

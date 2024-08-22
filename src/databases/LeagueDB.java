@@ -1,10 +1,7 @@
 package databases;
 
 import entities.League;
-import entities.Team;
-import utility.DatabaseManager;
-
-import java.util.Optional;
+import utility.database_foundation.DatabaseManager;
 
 public class LeagueDB extends DatabaseManager<League> {
 

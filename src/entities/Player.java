@@ -1,8 +1,7 @@
 package entities;
 
 import databases.PlayerDB;
-import utility.EPosition;
-import utility.FileIOReader;
+import utility.enums.EPosition;
 import utility.FileIOWriter;
 
 public class Player extends Person{

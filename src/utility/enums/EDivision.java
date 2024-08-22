@@ -1,4 +1,4 @@
-package utility;
+package utility.enums;
 
 public enum EDivision { //Tierlar
 	SUPER_LIG_TR,

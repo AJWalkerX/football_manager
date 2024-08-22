@@ -6,6 +6,7 @@ import databases.TeamDB;
 import entities.Manager;
 import entities.Player;
 import entities.Team;
+import models.DatabaseModel;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -20,16 +21,12 @@ public class ManagerModule {
 	// kendi kulübünün futbolcularını detaylı görüntüleyebilsin.
 	//bağlam menüsü var
 	
+	private static DatabaseModel databaseModel;
 	private static Scanner sc = new Scanner(System.in);
-	private static TeamDB teamDB;
-	private static PlayerDB playerDB;
-	private static ManagerDB managerDB;
 	private static Optional<Manager> managerOptional = Optional.empty();
 	
-	public static int managerModule(PlayerDB playerDatabase, TeamDB teamDatabase, ManagerDB managerDatabase) {
-		playerDB = playerDatabase;
-		teamDB = teamDatabase;
-		managerDB = managerDatabase;
+	public static int managerModule(DatabaseModel dbModel) {
+		databaseModel = dbModel;
 		int opt = 0;
 		opt = managerModuleMenuOptions(managerModuleMenu());
 		return opt;
@@ -134,6 +131,8 @@ public class ManagerModule {
 	}
 	
 	private static int managerAwayMenuOptions(int opt) {
+		TeamDB teamDB = databaseModel.teamDB;
+		PlayerDB playerDB = databaseModel.playerDB;
 		if (managerOptional.isPresent()) {
 			Manager manager = managerOptional.get();
 			switch (opt) {
@@ -247,11 +246,12 @@ public class ManagerModule {
 	}
 	
 	private static int managerHomeMenuOptions(int opt) {
+		
 		if (managerOptional.isPresent()) {
 			Manager manager = managerOptional.get();
 			switch (opt) {
 				case 1: //Display manager team squad
-					teamDB.getTeamSquad(playerDB, manager.getTeamID());
+					databaseModel.teamDB.getTeamSquad(databaseModel.playerDB, manager.getTeamID());
 					managerHomeMenuOptions(managerHomeMenu());
 					break;
 				case 2: //Display player info (detailed)
@@ -303,7 +303,7 @@ public class ManagerModule {
 		finally {
 			sc.nextLine();
 		}
-		return playerDB.findByID(id);
+		return databaseModel.playerDB.findByID(id);
 	}
 	
 	private static Optional<Manager> loginManager() {
@@ -314,7 +314,7 @@ public class ManagerModule {
 			String username = sc.nextLine();
 			System.out.print("Password: ");
 			String password = sc.nextLine();
-			Optional<Manager> manager1 = managerDB.findByUsernameAndPassword(username, password);
+			Optional<Manager> manager1 = databaseModel.managerDB.findByUsernameAndPassword(username, password);
 			if (manager1.isPresent()) {
 				managerOptional = manager1;
 				System.out.println("You've succesfully logged in.");

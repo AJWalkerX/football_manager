@@ -1,7 +1,7 @@
 package databases;
 
 import entities.Match;
-import utility.DatabaseManager;
+import utility.database_foundation.DatabaseManager;
 
 public class MatchDB extends DatabaseManager<Match> {
 }

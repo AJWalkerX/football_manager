@@ -1,7 +1,10 @@
-package utility;
+package utility.data;
 
 import databases.*;
 import entities.*;
+import utility.enums.EDivision;
+import utility.enums.EPosition;
+import utility.enums.ERegion;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -80,12 +83,14 @@ public class DataGenerator {
 		Team team20 = new Team(teamDB, "BAY", 0L);
 	}
 	
-	public static void generateLeagues(LeagueDB leagueDB) {
+	public static League generateLeagues(LeagueDB leagueDB) {
 		ArrayList<Integer> trSuperLeagueArrayList =
 				new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20));
 		
 		League turkishSuperLeague =
-				new League(leagueDB, "Turkish Super League", ERegion.TURKIYE, EDivision.SUPER_LIG_TR, "2024-2025", trSuperLeagueArrayList, LocalDate.parse("2024-09-08"));
+				new League(leagueDB, "Turkish Super League", ERegion.TURKIYE, EDivision.SUPER_LIG_TR,
+				           "2024-2025", trSuperLeagueArrayList, LocalDate.parse("2024-08-06"));
+		return turkishSuperLeague;
 	}
 	
 	public static void generateManagers(ManagerDB managerDB){
@@ -109,84 +114,5 @@ public class DataGenerator {
 		Manager manager17 = new Manager(managerDB,"Pablo Batalla","40","pablobatalla",password,17,7);
 		Manager manager18 = new Manager(managerDB,"Tuncay Sanli","42","tuncaysanli",password,18,6);
 		Manager manager19 = new Manager(managerDB, "Fikret Öztürk", "40", "fiko", password, 19, 4);
-	}
-	
-
-	//? Buna ihtiyaç kalmamış olabilir!
-	public static Map<Integer, List<Integer[]>> fixtureMap(League league) {
-		List<Integer[]> list = DataGenerator.generateFixtureList(league.getTeamIDList().size());
-		
-		Map<Integer, List<Integer[]>> map = new HashMap<>();
-		int sayac = 0;
-		for (int i = 0; i < 38; i++) {
-			
-			map.put(i + 1, new ArrayList<>());
-			for (int j = 0; j < 10; j++) {
-				map.get(i + 1).add(list.get(sayac));
-				sayac++;
-			}
-		}
-		for(int i=1;i<=19;i++){
-			if(i%2==0){
-				Map<Integer,List<Integer[]>> temp = new HashMap<>();
-				temp.put(i, map.get(i));
-				map.put(i,map.get(i+19));
-				map.put(i+19,temp.get(i));
-			}
-			
-		}
-		map.forEach((k, v) -> {
-			System.out.println(k + ". HAFTA");
-			for (int i = 0; i < 10; i++) {
-				System.out.println((Arrays.toString(v.get(i))));
-			}
-		});
-		return map;
-	}
-	
-	//TODO: Bunu LeagueModule içersine taşı!!!
-	public static List<Integer[]> generateFixtureList(int teamCount){
-		List<Integer> indexList = new ArrayList<>();
-		for (int i = 0; i< teamCount; i++){
-			indexList.add(i);
-		}
-		Collections.shuffle(indexList);
-		int totalWeekNumber = indexList.size()-1;
-		List<Integer[]> fixture = new ArrayList<>();
-		
-		for(int i =0;i<totalWeekNumber;i++){
-			List<Integer> remainingTeams = new ArrayList<>(indexList);
-			for(int j=0;j<indexList.size()/2;j++){
-				Integer homeTeamId= remainingTeams.remove(0);
-				Integer awayTeamId= remainingTeams.remove(new Random().nextInt(remainingTeams.size()));
-				fixture.add(new Integer[] {homeTeamId,awayTeamId});
-			}
-		}
-		
-		for(int i =0;i<totalWeekNumber*10;i++){
-			Integer[] temp = fixture.get(i);
-			Integer[] yeni = new Integer[2];
-			yeni[0] =temp[1];
-			yeni[1] =temp[0];
-			fixture.add(yeni);
-		}
-		return fixture;
-		
-	}
-	//TODO: Bu methodu LeagueModule içersine taşı!!!
-	public static List<Match> generateMatches(League league){
-		List<Integer[]> fixtureList =  generateFixtureList(league.getTeamIDList().size());
-		List<Integer> teamIDlist = league.getTeamList();
-		List<Match> matcheList = new ArrayList<>();
-		Collections.shuffle(teamIDlist);
-		for(Integer[] matches: fixtureList){
-			Match match = new Match(new MatchDB());
-			match.setHomeTeamID(teamIDlist.get(matches[0]));
-			match.setAwayTeamID(teamIDlist.get(matches[1]));
-			matcheList.add(match);
-		}
-		return null;
-//		return matcheList.stream().sorted(Comparator.comparing(match -> match.getMatchDate())).toList();
-//		!-> Date Field yok, getMatchDate çalışmaz!
 	}
 }

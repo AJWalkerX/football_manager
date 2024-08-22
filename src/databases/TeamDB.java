@@ -2,11 +2,10 @@ package databases;
 
 import entities.Manager;
 import entities.Team;
-import utility.DatabaseManager;
+import utility.database_foundation.DatabaseManager;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 public class TeamDB extends DatabaseManager<Team> {
 	public void getTeamSquad(PlayerDB playerDB,int teamId){

@@ -3,6 +3,7 @@ package modules;
 import databases.PlayerDB;
 import databases.TeamDB;
 import entities.Team;
+import models.DatabaseModel;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -11,12 +12,10 @@ import java.util.Scanner;
 
 public class TeamModule {
 	private static Scanner sc = new Scanner(System.in);
-	private static TeamDB teamDataBase;
-	private static PlayerDB playerDataBase;
+	private static DatabaseModel databaseModel;
 	
-	public static int teamModule(TeamDB teamDB, PlayerDB playerDB) {
-		playerDataBase = playerDB;
-		teamDataBase = teamDB;
+	public static int teamModule(DatabaseModel dbModel) {
+		databaseModel = dbModel;
 		int opt = 0;
 		opt = teamModuleMenuOptions(teamModuleMenu());
 		return opt;
@@ -54,9 +53,10 @@ public class TeamModule {
 				break;
 			}
 			case 2:{ //List All Teams
+				TeamDB teamDB = databaseModel.teamDB;
 				System.out.println("--- Lists of All Teams ---");
-				if (!teamDataBase.findAll().isEmpty()){
-					teamDataBase.findAll().stream().map(team -> team.getId() + "- " + team.getTeamName())
+				if (!teamDB.findAll().isEmpty()){
+					teamDB.findAll().stream().map(team -> team.getId() + "- " + team.getTeamName())
 					            .forEach(System.out::println);
 				}
 				else {
@@ -93,21 +93,23 @@ public class TeamModule {
 	}
 	
 	private static Optional<Team> searchByTeamID() {
+		TeamDB teamDB = databaseModel.teamDB;
 		int teamID = askUserTeamID();
-		Optional<Team>teamOptional = teamDataBase.getTeamByTeamID(teamDataBase, teamID);
+		Optional<Team>teamOptional = teamDB.getTeamByTeamID(teamDB, teamID);
 		return teamOptional;
 	}
 	
 	private static Optional<Team> searchByTeamName() {
+		TeamDB teamDB = databaseModel.teamDB;
 		System.out.print("Enter a team name: ");
 		String teamName = sc.nextLine();
 		Optional<Team> teamOptional = Optional.empty();
-		List<Team> teamList = teamDataBase.findTeamByName(teamDataBase, teamName);
+		List<Team> teamList = teamDB.findTeamByName(teamDB, teamName);
 		if (!teamList.isEmpty()) {
 			int userSelection = askUserToContinue();
 			if (userSelection == 1) {
 				int teamID = askUserTeamID();
-				teamOptional = teamDataBase.getTeamByTeamID(teamList, teamID);
+				teamOptional = teamDB.getTeamByTeamID(teamList, teamID);
 			}
 			else {
 				System.out.println("Returning to main menu...");
@@ -174,7 +176,7 @@ public class TeamModule {
 				break;
 			}
 			case 2: { //Show Team Players
-				teamDataBase.getTeamSquad(playerDataBase, team.getId());
+				databaseModel.teamDB.getTeamSquad(databaseModel.playerDB, team.getId());
 				teamDetailMenuOptions(teamDetailMenu(team.getTeamName()), team);
 				break;
 			}

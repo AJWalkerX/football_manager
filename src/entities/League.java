@@ -1,16 +1,16 @@
 package entities;
 
 import databases.LeagueDB;
-import utility.EDivision;
-import utility.ERegion;
+import utility.enums.EDivision;
+import utility.enums.ERegion;
 import utility.FileIOWriter;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class League extends BaseEntity{
 	private String leagueName;
@@ -37,7 +37,12 @@ public class League extends BaseEntity{
 		this.region=region;
 		this.division=division;
 		this.season = season;
-		this.BEGINNING_SEASON_DATE = BEGINNING_SEASON_DATE;
+		
+		LocalDate today = BEGINNING_SEASON_DATE;
+		DayOfWeek targetDay = DayOfWeek.FRIDAY;
+		LocalDate nextFriday = today.with(TemporalAdjusters.nextOrSame(targetDay));
+		
+		this.BEGINNING_SEASON_DATE = nextFriday;
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);
 	}

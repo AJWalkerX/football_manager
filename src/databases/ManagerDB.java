@@ -1,7 +1,7 @@
 package databases;
 
 import entities.Manager;
-import utility.DatabaseManager;
+import utility.database_foundation.DatabaseManager;
 
 import java.util.Optional;
 
