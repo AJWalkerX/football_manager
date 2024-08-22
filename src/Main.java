@@ -1,10 +1,9 @@
-import databases.*;
-import entities.League;
+
 import models.DatabaseModel;
+import modules.LeagueModule;
 import modules.ManagerModule;
-import modules.MatchModule;
+
 import modules.TeamModule;
-import utility.data.DataGenerator;
 import utility.FileIOReader;
 import utility.FileIOWriter;
 
@@ -21,39 +20,44 @@ public class Main {
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
 		FileIOReader.readAllEntities(databaseModel);
-		startApplication();
+		int opt = 0;
+		do {
+			opt = startApplication(mainMenu());
+		}while (opt != 0);
 	}
 	
-	public static void startApplication() {
-		int opt;
-		do {
-			opt = mainMenu();
+	public static int startApplication(int opt) {
 			switch (opt) {
 				case 1:
-					opt = ManagerModule.managerModule(databaseModel);
+					ManagerModule.managerModule(databaseModel);
 					break;
 				case 2:
-					opt = TeamModule.teamModule(databaseModel);
+					TeamModule.teamModule(databaseModel);
+					break;
+				case 3:
+					LeagueModule.leagueModule(databaseModel);
 					break;
 				case 0:
 					System.out.println("Exiting application...");
 					FileIOWriter.saveAllEntities(databaseModel);
-					break;
+					return opt;
 				default:
 					System.out.println("Invalid option. Please try again.");
 					break;
 			}
-		} while (opt != 0);
+		return opt;
 	}
 	
 	private static int mainMenu() {
+		int opt;
 		while (true) {
 			System.out.println("### MAIN MENU ###");
 			System.out.println("1- Manager Module");
 			System.out.println("2- Team Module ");
+			System.out.println("3- League Module ");
 			System.out.println("0- Exit");
 			System.out.print("Selection: ");
-			int opt;
+			
 			try {
 				opt = sc.nextInt();
 				return opt;

@@ -1,6 +1,5 @@
 package modules;
 
-import databases.ManagerDB;
 import databases.PlayerDB;
 import databases.TeamDB;
 import entities.Manager;

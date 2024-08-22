@@ -2,31 +2,28 @@ package modules;
 
 import databases.LeagueDB;
 import databases.MatchDB;
-import databases.PlayerDB;
-import databases.TeamDB;
 import entities.League;
 import entities.Match;
+import models.DatabaseModel;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 
-public class MatchModule {
+public class LeagueModule {
 	private static Scanner sc = new Scanner(System.in);
-	private static LeagueDB leagueDB;
-	private static MatchDB matchDB;
+	private static DatabaseModel databaseModel;
 	
 	
-	public static int matchModule(MatchDB matchDatabase, LeagueDB leagueDatabase) {
-		matchDB = matchDatabase;
-		leagueDB = leagueDatabase;
+	public static int leagueModule(DatabaseModel dbModel) {
+		databaseModel = dbModel;
 		int opt = 0;
-		opt = matchModuleMenuOptions(matchModuleMenu());
+		opt = leagueModuleMenuOptions(leagueModuleMenu());
 		return opt;
 	}
-	public static int matchModuleMenu(){
+	public static int leagueModuleMenu(){
 		while (true){
-			System.out.println("### Match Module MENU ###");
+			System.out.println("### League Module MENU ###");
 			System.out.println("1- Look for Fixture");
 			System.out.println("2- List All Leagues");
 			System.out.println("0- Return Main Menu...");
@@ -44,7 +41,7 @@ public class MatchModule {
 		}
 		
 	}
-	public static int matchModuleMenuOptions(int opt){
+	public static int leagueModuleMenuOptions(int opt){
 		switch (opt){
 			case 1:{ //Look for Fixture
 				//TODO: Eğer fixture yoksa fixture yok desin.
@@ -53,9 +50,6 @@ public class MatchModule {
 			}
 			case 2:{ //List All Leagues
 				//TODO:League Module içersine yönlendir.
-				break;
-			}
-			case 3:{ //Generate Fixture
 				break;
 			}
 			case 0:{
@@ -154,8 +148,6 @@ public class MatchModule {
 			matcheList.add(match);
 		}
 		return matcheList;
-		//TODO: tarihe göre sıralamak için başka bir yere al bunu!
-//
 	}
 	//! aynı takım maci bir başka haftaya da gelebiliyor.
 }
