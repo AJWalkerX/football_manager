@@ -9,8 +9,8 @@ public class Match extends BaseEntity {
 	
 	private Integer homeTeamID;
 	private Integer awayTeamID;
-	private Integer homeTeamScore;
-	private Integer awayTeamScore;
+	private Integer homeTeamScore = 0;
+	private Integer awayTeamScore = 0;
 	private String winner;
 	private LocalDate MatchDate;
 	private Integer leagueID;

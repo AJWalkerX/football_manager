@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class LeagueModel {
+	private Integer id;
 	private DatabaseModel databaseModel;
 	private String leagueName;
 	private List<Integer> teamIDList;
@@ -19,6 +20,7 @@ public class LeagueModel {
 	private Map<Integer, List<Match>> fixture;
 	
 	public LeagueModel(DatabaseModel databaseModel, League league) {
+		this.id = league.getId();
 		this.databaseModel = databaseModel;
 		this.leagueName = league.getLeagueName();
 		this.teamIDList = league.getTeamIDList();
@@ -166,13 +168,12 @@ public class LeagueModel {
 		List<Match> matchesList = new ArrayList<>();
 		
 		for (Integer[] matches : fixtureList) {
-			Match match = new Match(this.databaseModel.matchDB);
-			match.setLeagueID(teamIDList.get(matches[0]));
-			match.setLeagueID(teamIDList.get(matches[1]));
+			Match match = new Match(databaseModel.matchDB);
+			match.setLeagueID(id);
+			match.setHomeTeamID(teamIDList.get(matches[0]));
+			match.setAwayTeamID(teamIDList.get(matches[1]));
 			matchesList.add(match);
 		}
-		
-		
 		return matchesList;
 	}
 	

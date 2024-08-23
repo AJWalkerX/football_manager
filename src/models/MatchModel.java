@@ -5,12 +5,10 @@ import entities.Match;
 import entities.Team;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class MatchModel {
+	private DatabaseModel databaseModel;
 	private Optional<Team> homeTeam;
 	private Optional<Team> awayTeam;
 	private Integer homeTeamScore;
@@ -22,11 +20,15 @@ public class MatchModel {
 //	Map<Integer,Scores>
 	
 	public MatchModel(DatabaseModel databaseModel, Match match) {
+		playMatch(match);
+		this.databaseModel = databaseModel;
 		this.league = databaseModel.leagueDB.findByID(match.getLeagueID());
 		this.homeTeam = databaseModel.teamDB.findByID(match.getHomeTeamID());
 		this.awayTeam = databaseModel.teamDB.findByID(match.getAwayTeamID());
 		this.homeTeamScore = match.getHomeTeamScore();
 		this.awayTeamScore = match.getAwayTeamScore();
+		this.homeTeamScore = 0;
+		this.awayTeamScore = 0;
 		this.winner = (homeTeamScore > awayTeamScore) ?
 				homeTeam.map(Team::getTeamName).orElse("Unknown") :
 				awayTeam.map(Team::getTeamName).orElse("Unknown");
@@ -42,5 +44,11 @@ public class MatchModel {
 		System.out.println("Result              : " + this.winner);
 		System.out.println("Match Date          : " + this.matchDate);
 		System.out.println("--------------------------------------------------");
+	}
+	
+	public Match playMatch(Match match) {
+		match.setHomeTeamScore(match.getHomeTeamScore() + 2);
+		match.setAwayTeamScore(match.getAwayTeamScore() + 1);
+		return match;
 	}
 }
