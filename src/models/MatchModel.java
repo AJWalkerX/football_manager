@@ -16,22 +16,21 @@ public class MatchModel {
 	private String winner;
 	private LocalDate matchDate;
 	private Optional<League> league;
-	//TODO:Fixture buraya eklenecek!
-//	Map<Integer,Scores>
+//	TODO:Score muhabeti gelecek
 	
 	public MatchModel(DatabaseModel databaseModel, Match match) {
-		playMatch(match);
 		this.databaseModel = databaseModel;
 		this.league = databaseModel.leagueDB.findByID(match.getLeagueID());
 		this.homeTeam = databaseModel.teamDB.findByID(match.getHomeTeamID());
 		this.awayTeam = databaseModel.teamDB.findByID(match.getAwayTeamID());
 		this.homeTeamScore = match.getHomeTeamScore();
 		this.awayTeamScore = match.getAwayTeamScore();
-		this.homeTeamScore = 0;
-		this.awayTeamScore = 0;
-		this.winner = (homeTeamScore > awayTeamScore) ?
-				homeTeam.map(Team::getTeamName).orElse("Unknown") :
-				awayTeam.map(Team::getTeamName).orElse("Unknown");
+		//TODO: Berabera olan takımı yazmıyor!
+		if (homeTeamScore != null || awayTeamScore != null) {
+			this.winner = (homeTeamScore > awayTeamScore) ?
+					homeTeam.map(Team::getTeamName).orElse("Unknown") :
+					awayTeam.map(Team::getTeamName).orElse("Unknown");
+		}
 		this.matchDate = match.getMatchDate();
 		this.league = databaseModel.leagueDB.findByID(match.getLeagueID());
 	}

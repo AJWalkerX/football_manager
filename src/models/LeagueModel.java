@@ -5,6 +5,7 @@ import entities.Match;
 import utility.enums.EDivision;
 import utility.enums.ERegion;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -53,7 +54,7 @@ public class LeagueModel {
 		System.out.println("==================================================");
 	}
 	
-	private Map<Integer, List<Match>> generateMatchesAndFixture() {
+	public Map<Integer, List<Match>> generateMatchesAndFixture() {
 		int teamNums = teamIDList.size();
 		int matchesPerWeek = teamNums / 2;
 		
@@ -75,6 +76,7 @@ public class LeagueModel {
 	}
 	
 	private Map<Integer, List<Match>> createFixtureMap(List<Match> matches, int matchesPerWeek) {
+		
 		Map<Integer, List<Match>> weeklyFixture = new HashMap<>();
 		
 		int counter = 0;

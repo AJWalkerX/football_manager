@@ -47,7 +47,7 @@ public class FileIOReader {
 		if(inputFileMatch.exists()){
 			readMatchFromBin(databaseModel.matchDB);
 		}else{
-			//TODO: generate fixtures and matches
+			//TODO: matchleri olusturabilmek için fixture listesi olusturulacak methodları başka bir yere taşı!
 		}
 		
 	}
