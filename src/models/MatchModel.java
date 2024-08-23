@@ -25,11 +25,14 @@ public class MatchModel {
 		this.awayTeam = databaseModel.teamDB.findByID(match.getAwayTeamID());
 		this.homeTeamScore = match.getHomeTeamScore();
 		this.awayTeamScore = match.getAwayTeamScore();
-		//TODO: Berabera olan takımı yazmıyor!
 		if (homeTeamScore != null || awayTeamScore != null) {
-			this.winner = (homeTeamScore > awayTeamScore) ?
-					homeTeam.map(Team::getTeamName).orElse("Unknown") :
-					awayTeam.map(Team::getTeamName).orElse("Unknown");
+			if (homeTeamScore == awayTeamScore) {
+				this.winner = "Draw";
+			}else{
+				this.winner = (homeTeamScore > awayTeamScore) ?
+						homeTeam.map(Team::getTeamName).orElse("Unknown") :
+						awayTeam.map(Team::getTeamName).orElse("Unknown");
+			}
 		}
 		this.matchDate = match.getMatchDate();
 		this.league = databaseModel.leagueDB.findByID(match.getLeagueID());
@@ -43,11 +46,5 @@ public class MatchModel {
 		System.out.println("Result              : " + this.winner);
 		System.out.println("Match Date          : " + this.matchDate);
 		System.out.println("--------------------------------------------------");
-	}
-	
-	public Match playMatch(Match match) {
-		match.setHomeTeamScore(match.getHomeTeamScore() + 2);
-		match.setAwayTeamScore(match.getAwayTeamScore() + 1);
-		return match;
 	}
 }
