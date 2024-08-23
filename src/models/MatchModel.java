@@ -5,6 +5,9 @@ import entities.Match;
 import entities.Team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class MatchModel {
@@ -16,7 +19,8 @@ public class MatchModel {
 	private LocalDate matchDate;
 	private Optional<League> league;
 	//TODO:Fixture buraya eklenecek!
-	
+	List<Map<Team, List<Match>>> teamFixture = new ArrayList<Map<Team, List<Match>>>();
+//	Map<Integer,Scores>
 	public MatchModel(DatabaseModel databaseModel, Match hTeam, Match aTeam) {
 		this.homeTeam = databaseModel.teamDB.findByID(hTeam.getHomeTeamID());
 		this.awayTeam = databaseModel.teamDB.findByID(aTeam.getHomeTeamID());

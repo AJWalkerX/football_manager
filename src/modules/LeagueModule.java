@@ -64,7 +64,6 @@ public class LeagueModule {
 	
 	
 	//Fixture işlemleri
-	
 	private static List<Integer[]> generateFixtureList(int teamCount) {
 		List<Integer> indexList = new ArrayList<>();
 		for (int i = 0; i < teamCount; i++) {
@@ -83,7 +82,7 @@ public class LeagueModule {
 			}
 		}
 		
-		for (int i = 0; i < totalWeekNumber * 10; i++) {
+		for (int i = 0; i < totalWeekNumber * (teamCount/2); i++) {
 			Integer[] temp = fixture.get(i);
 			Integer[] yeni = new Integer[2];
 			yeni[0] = temp[1];
