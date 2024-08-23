@@ -1,66 +1,120 @@
+import databases.LeagueDB;
+import databases.MatchDB;
+import entities.League;
+import entities.Match;
+import utility.data.DataGenerator;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.*;
 
 public class FixtureGenerator {
-	
-	private static List<Integer[]> generateFixtureList(int teamCount) {
-		if (teamCount % 2 != 0) {
-			throw new IllegalArgumentException("Takım sayısı çift olmalıdır.");
-		}
-		
-		List<Integer[]> fixture = new ArrayList<>();
-		int weeksPerHalf = teamCount - 1; // İlk ve ikinci yarı için haftalar
-		int totalWeeks = weeksPerHalf * 2; // Toplam hafta sayısı
-		int matchesPerWeek = teamCount / 2; // Her hafta maç sayısı
-		
-		// İlk yarı maçlarını oluştur
-		for (int week = 0; week < weeksPerHalf; week++) {
-			for (int match = 0; match < matchesPerWeek; match++) {
-				int homeTeam = (week + match) % teamCount;
-				int awayTeam = (week + teamCount - match - 1) % teamCount;
-				if (homeTeam != awayTeam) {
-					fixture.add(new Integer[]{homeTeam, awayTeam});
-				}
-			}
-		}
-		
-		// İkinci yarı maçlarını oluştur
-		List<Integer[]> secondHalf = new ArrayList<>();
-		for (Integer[] match : fixture) {
-			secondHalf.add(new Integer[]{match[1], match[0]});
-		}
-		fixture.addAll(secondHalf);
-		
-		// Haftaları yer değiştir
-		return shuffleWeeks(fixture, weeksPerHalf, matchesPerWeek, totalWeeks);
-	}
-	
-	private static List<Integer[]> shuffleWeeks(List<Integer[]> fixture, int weeksPerHalf, int matchesPerWeek, int totalWeeks) {
-		List<Integer[]> firstHalf = fixture.subList(0, weeksPerHalf * matchesPerWeek);
-		List<Integer[]> secondHalf = fixture.subList(weeksPerHalf * matchesPerWeek, totalWeeks * matchesPerWeek);
-		
-		List<Integer[]> swappedWeeks = new ArrayList<>();
-		for (int i = 0; i < weeksPerHalf; i++) {
-			swappedWeeks.add(firstHalf.get(i));
-		}
-		for (int i = 0; i < weeksPerHalf; i++) {
-			if (2 * i + 1 < secondHalf.size()) {
-				swappedWeeks.add(secondHalf.get(2 * i));
-				swappedWeeks.add(secondHalf.get(2 * i + 1));
-			}
-		}
-		
-		return swappedWeeks;
-	}
-	
 	public static void main(String[] args) {
-		int teamCount = 6; // Örnek takım sayısı
+		List<Integer[]> fixtureList = generateFixtureList(20);
+//		fixtureList.forEach(s-> System.out.println(Arrays.toString(s)));
+//		System.out.println(fixtureList.size());
+		initilzeLocalDate(DataGenerator.generateLeagues(new LeagueDB()));
+	}
+	private static List<Integer[]> generateFixtureList(int teamCount) {
 		
-		List<Integer[]> fixtureList = generateFixtureList(teamCount);
 		
-		System.out.println("Fixture List:");
-		for (int i = 0; i < fixtureList.size(); i++) {
-			Integer[] match = fixtureList.get(i);
-			System.out.printf("Week %d: Team %d vs Team %d\n", i + 1, match[0], match[1]);
+		List<Integer> indexList = new ArrayList<>();
+		for (int i = 0; i< teamCount; i++){
+			indexList.add(i);
 		}
+		Collections.shuffle(indexList);
+		int totalWeekNumber = indexList.size()-1;
+		List<Integer[]> fixture = new ArrayList<>();
+		
+		for(int i =0;i<totalWeekNumber;i++){
+			List<Integer> remainingTeams = new ArrayList<>(indexList);
+			for(int j=0;j<indexList.size()/2;j++){
+				Integer homeTeamId= remainingTeams.remove(0);
+				Integer awayTeamId= remainingTeams.remove(new Random().nextInt(remainingTeams.size()));
+				fixture.add(new Integer[] {homeTeamId,awayTeamId});
+			}
+		}
+		
+		for(int i =0;i<totalWeekNumber*(teamCount/2);i++){
+			Integer[] temp = fixture.get(i);
+			Integer[] yeni = new Integer[2];
+			yeni[0] =temp[1];
+			yeni[1] =temp[0];
+			fixture.add(yeni);
+		}
+		
+		Map<Integer, List<Integer[]>> map = new HashMap<>();
+		int sayac = 0;
+		for (int i = 0; i < (teamCount - 1) * 2; i++) {
+			
+			map.put(i + 1, new ArrayList<>());
+			for (int j = 0; j < (teamCount / 2); j++) {
+				map.get(i + 1).add(fixture.get(sayac));
+				sayac++;
+			}
+		}
+		for (int i = 1; i <= (teamCount - 1); i++) {
+			if (i % 2 == 0) {
+				Map<Integer, List<Integer[]>> temp = new HashMap<>();
+				temp.put(i, map.get(i));
+				map.put(i, map.get(i + (teamCount - 1)));
+				map.put(i + (teamCount - 1), temp.get(i));
+			}
+			
+		}
+		fixture.clear();
+		
+		for (Map.Entry<Integer, List<Integer[]>> entry : map.entrySet()) {
+			fixture.addAll(entry.getValue());
+		}
+		return fixture;
+	}
+	
+	public static void initilzeLocalDate(League league) {
+		List<Match> matches = generateMatchList(league);
+		System.out.println("Total matches: " + matches.size());
+		LocalDate beginningOfSeasonDate = league.getBeginningOfSeasonDate();
+		int totalMatch = matches.size();
+		LocalDate matchDay = beginningOfSeasonDate;
+		int countMatches = 0;
+		DayOfWeek dayOfWeek;
+		
+		while (countMatches < totalMatch) {
+			dayOfWeek = matchDay.getDayOfWeek();
+			switch (dayOfWeek.toString().toLowerCase()) {
+				case "friday", "monday": {
+					for (int i = 0; i < 2 && countMatches < totalMatch; i++) {
+						matches.get(countMatches++).setMatchDate(matchDay);
+					}
+					matchDay = matchDay.plusDays(1);
+					break;
+				}
+				case "saturday", "sunday": {
+					for (int i = 0; i < 3 && countMatches < totalMatch; i++) {
+						matches.get(countMatches++).setMatchDate(matchDay);
+					}
+					matchDay = matchDay.plusDays(1);
+					break;
+				}
+				default:
+					matchDay = matchDay.plusDays(3);
+			}
+		}
+		matches.stream().sorted(Comparator.comparing(Match::getMatchDate)).forEach(System.out::println);
+	}
+	
+	private static List<Match> generateMatchList(League league) {
+		List<Integer[]> fixtureList = generateFixtureList(league.getTeamIDList().size());
+		List<Integer> teamIDlist = league.getTeamIDList();
+		List<Match> matcheList = new ArrayList<>();
+		
+		for (Integer[] matches : fixtureList) {
+			Match match = new Match(new MatchDB());
+			match.setHomeTeamID(teamIDlist.get(matches[0]));
+			match.setAwayTeamID(teamIDlist.get(matches[1]));
+			matcheList.add(match);
+		}
+//		matcheList.forEach(System.out::println);
+		return matcheList;
 	}
 }

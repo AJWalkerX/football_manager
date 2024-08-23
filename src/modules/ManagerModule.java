@@ -13,12 +13,6 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class ManagerModule {
-	//ManagerModule yazalım. Menajer id şifre ile giriş yapsın, kulüp görüntülemesi yaparken kendi kulübünü detaylı
-	// görüntülesin,
-	// diğer kulüpleri özet bilgiyle görüntüleyebilsin. Ayrıca başka kulüp futbolcularını özet bilgileriyle
-	// görüntüleyebilirken,
-	// kendi kulübünün futbolcularını detaylı görüntüleyebilsin.
-	//bağlam menüsü var
 	
 	private static DatabaseModel databaseModel;
 	private static Scanner sc = new Scanner(System.in);
