@@ -18,32 +18,7 @@ public class LeagueModel {
 	}
 	
 	private static List<Integer[]> generateFixtureList(int teamCount) {
-//    List<Integer> teams = new ArrayList<>();
-//    for (int i = 0; i < teamCount; i++) {
-//        teams.add(i);
-//    }
-//
-//    List<Integer[]> fixtures = new ArrayList<>();
-//    for (int i = 0; i < teamCount - 1; i++) {
-//        for (int j = 0; j < teamCount / 2; j++) {
-//            int homeTeam = teams.get(j);
-//            int awayTeam = teams.get(teamCount - 1 - j);
-//            fixtures.add(new Integer[]{homeTeam, awayTeam});
-//        }
-//        // Rotate the teams
-//        teams.add(0, teams.remove(teamCount - 1));
-//    }
-//
-//    // Add the second half of the fixtures
-//    for (int i = 0; i < teamCount - 1; i++) {
-//        for (int j = 0; j < teamCount / 2; j++) {
-//            int homeTeam = teams.get(j);
-//            int awayTeam = teams.get(teamCount - 1 - j);
-//            fixtures.add(new Integer[]{awayTeam, homeTeam});
-//        }
-//        // Rotate the teams
-//        teams.add(0, teams.remove(teamCount - 1));
-//    }
+
 		List<Integer> indexList = new ArrayList<>();
 		for (int i = 0; i< teamCount; i++){
 			indexList.add(i);
