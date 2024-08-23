@@ -3,6 +3,7 @@ package utility;
 import databases.*;
 import entities.*;
 import models.DatabaseModel;
+import models.LeagueModel;
 import utility.data.DataGenerator;
 
 import java.io.*;
@@ -46,7 +47,7 @@ public class FileIOReader {
 		if(inputFileMatch.exists()){
 			readMatchFromBin(databaseModel.matchDB);
 		}else{
-			DataGenerator.generateManagers(databaseModel.managerDB);
+			//TODO: generate fixtures and matches
 		}
 		
 	}

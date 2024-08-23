@@ -1,5 +1,6 @@
 
 import models.DatabaseModel;
+import models.LeagueModel;
 import modules.LeagueModule;
 import modules.ManagerModule;
 
@@ -20,10 +21,12 @@ public class Main {
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
 		FileIOReader.readAllEntities(databaseModel);
-		int opt = 0;
-		do {
-			opt = startApplication(mainMenu());
-		}while (opt != 0);
+//		int opt = 0;
+//		do {
+//			opt = startApplication(mainMenu());
+//		}while (opt != 0);
+		LeagueModel leagueModel = new LeagueModel(databaseModel, databaseModel.leagueDB.findAll().get(0));
+		leagueModel.displayLeagueInfo();
 	}
 	
 	public static int startApplication(int opt) {
