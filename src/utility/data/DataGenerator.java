@@ -61,7 +61,7 @@ public class DataGenerator {
 	
 	public static void generateTeams(TeamDB teamDB, LeagueDB leagueDB) {
 		
-		Team team1 = new Team(teamDB,"Fenerbahce",252_400_000L );
+		Team team1 = new Team(teamDB,"Fenerbahce",252_400_000L);
 		Team team2 = new Team(teamDB,"Galatasaray",210_500_000L );
 		Team team3 = new Team(teamDB,"Besiktas",142_530_000L );
 		Team team4 = new Team(teamDB,"Trabzonspor",98_630_000L );

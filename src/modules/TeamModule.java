@@ -3,6 +3,7 @@ package modules;
 import databases.TeamDB;
 import entities.Team;
 import models.DatabaseModel;
+import models.TeamModel;
 
 import java.util.InputMismatchException;
 import java.util.List;
@@ -69,8 +70,8 @@ public class TeamModule {
 					Optional<Team> teamOptional = searchByTeamID();
 					if (teamOptional.isPresent()){
 						Team team = teamOptional.get();
-						String teamName = team.getTeamName();
-						teamDetailMenuOptions(teamDetailMenu(teamName), team);
+						TeamModel teamModel = new TeamModel(databaseModel, team);
+						teamModel.displayClubInfo();
 					}
 					else{
 						System.out.println("No such team found by this ID!");

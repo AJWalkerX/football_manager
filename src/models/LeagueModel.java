@@ -2,9 +2,7 @@ package models;
 
 import databases.MatchDB;
 import entities.League;
-import entities.Manager;
 import entities.Match;
-import utility.FileIOReader;
 import utility.FileIOWriter;
 import utility.enums.EDivision;
 import utility.enums.ERegion;
@@ -15,8 +13,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LeagueModel {
-	private static final File
-			DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects\\futbol_manager\\file_io");
+	private static final File DIRECTORY =
+			new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects\\futbol_manager" +
+					         "\\file_io");
 	private File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
 	private Integer id;
 	private DatabaseModel databaseModel;
@@ -50,9 +49,14 @@ public class LeagueModel {
 		System.out.println("League Season         : " + season);
 		System.out.println("--------------------------------------------------");
 		System.out.println("Season Start:         :" + BEGINNING_SEASON_DATE);
-		System.out.println("Fixture List          :");
+		System.out.println("==================================================");
+	}
+	
+	public void displayLeagueInfoAndFixture() {
+		displayLeagueInfo();
 		System.out.println("--------------------------------------------------");
-		
+		System.out.println("Fixture:");
+		System.out.println("--------------------------------------------------");
 		if (fixture != null && !fixture.isEmpty()) {
 			fixture.forEach((key, matches) -> matches.forEach(match -> new MatchModel(databaseModel, match).displayMatchInfo()));
 		}
@@ -60,6 +64,18 @@ public class LeagueModel {
 			System.out.println("No fixture found for this league.");
 		}
 		System.out.println("==================================================");
+	}
+	
+	public void displayPlayedMatches() {
+		if (fixture != null && !fixture.isEmpty()) {
+			fixture.forEach((key, matches) -> matches.stream().filter(match -> match.getWinner() != null)
+			                                         .forEach(match -> new MatchModel(databaseModel, match).displayMatchInfo()));
+		}
+		else {
+			System.out.println("No Match played yet for this league.");
+		}
+		System.out.println("==================================================");
+		System.out.println("--------------------------------------------------");
 	}
 	
 	public Map<Integer, List<Match>> generateMatchesAndFixture() {

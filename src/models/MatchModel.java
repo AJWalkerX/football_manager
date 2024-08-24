@@ -6,6 +6,7 @@ import entities.Team;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Random;
 
 public class MatchModel {
 	private DatabaseModel databaseModel;
@@ -23,6 +24,8 @@ public class MatchModel {
 		this.league = databaseModel.leagueDB.findByID(match.getLeagueID());
 		this.homeTeam = databaseModel.teamDB.findByID(match.getHomeTeamID());
 		this.awayTeam = databaseModel.teamDB.findByID(match.getAwayTeamID());
+		this.matchDate = match.getMatchDate();
+		this.playMatch(match);
 		this.homeTeamScore = match.getHomeTeamScore();
 		this.awayTeamScore = match.getAwayTeamScore();
 		if (homeTeamScore != null || awayTeamScore != null) {
@@ -34,8 +37,6 @@ public class MatchModel {
 						awayTeam.map(Team::getTeamName).orElse("Unknown");
 			}
 		}
-		this.matchDate = match.getMatchDate();
-		this.league = databaseModel.leagueDB.findByID(match.getLeagueID());
 	}
 	
 	public void displayMatchInfo() {
@@ -47,4 +48,19 @@ public class MatchModel {
 		System.out.println("Match Date          : " + this.matchDate);
 		System.out.println("--------------------------------------------------");
 	}
+	
+	public void playMatch(Match match) {
+		if (match.getMatchDate().isBefore(LocalDate.now()) || match.getMatchDate().isEqual(LocalDate.now())) {
+			Team homeTeam = this.homeTeam.get();
+			Team awayTeam = this.awayTeam.get();
+			TeamModel homeTeamModel = new TeamModel(databaseModel, homeTeam);
+			TeamModel awayTeamModel = new TeamModel(databaseModel, awayTeam);
+			homeTeamScore = (new Random().nextInt(4)* homeTeam.getTeamPower());
+			awayTeamScore =(new Random().nextInt(4)* homeTeam.getTeamPower());
+			match.setWinner(winner);
+//			databaseModel.matchDB.update(match);
+			
+		}
+	}
+	
 }

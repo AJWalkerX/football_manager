@@ -9,6 +9,7 @@ public class Team extends BaseEntity{
 	
 	private String teamName;
 	private Long budget; //takımın elindeki para
+	private Integer teamPower;
 	
 	public Team(TeamDB teamDB) {
 		super.id = teamDB.findAll().size()+1;
@@ -22,6 +23,13 @@ public class Team extends BaseEntity{
 		FileIOWriter.writeTeamToBin(teamDB);
 	}
 	
+	public Integer getTeamPower() {
+		return teamPower;
+	}
+	
+	public void setTeamPower(Integer teamPower) {
+		this.teamPower = teamPower;
+	}
 	
 	public String getTeamName() {
 		return teamName;
@@ -41,10 +49,11 @@ public class Team extends BaseEntity{
 		this.budget = budget;
 	}
 	
-	
 	@Override
 	public String toString() {
-		return "Team{" + "id=" + getId() + ", teamName='" + getTeamName() + '\'' +
-				", budget=" + getBudget() + '}';
+		return "Team{" + "id=" + getId() +
+				", teamName='" + getTeamName() + '\'' +
+				", budget=" + getBudget() +
+				", teamPower=" + getTeamPower() + '}';
 	}
 }

@@ -46,7 +46,9 @@ public class League extends BaseEntity{
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);
 	}
-	
+	public Integer getLeagueID() {
+		return id;
+	}
 	public LocalDate getBeginningOfSeasonDate() {
 		return BEGINNING_SEASON_DATE;
 	}
@@ -107,4 +109,6 @@ public class League extends BaseEntity{
 				", BeginningOfSeasonDate=" + getBeginningOfSeasonDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))+ '\''
 				+ '}';
 	}
+	
+	
 }
