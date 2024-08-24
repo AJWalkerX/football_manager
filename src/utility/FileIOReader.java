@@ -43,12 +43,8 @@ public class FileIOReader {
 			DataGenerator.generateManagers(databaseModel.managerDB);
 		}
 		//Match icin
-		File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
-		if(inputFileMatch.exists()){
-			readMatchFromBin(databaseModel.matchDB);
-		}else{
-			//TODO: matchleri olusturabilmek için fixture listesi olusturulacak methodları başka bir yere taşı!
-		}
+		readMatchFromBin(databaseModel.matchDB);
+		
 		
 	}
 	
@@ -92,12 +88,15 @@ public class FileIOReader {
 		}
 	}
 	public static void readMatchFromBin(MatchDB matchDB) {
-		File inputFile = new File(DIRECTORY, "matchDB.bin");
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
-			matchDB.saveAll((List<Match>) ois.readObject());
-			
-		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
+		File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
+		if(inputFileMatch.exists()){
+			File inputFile = new File(DIRECTORY, "matchDB.bin");
+			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
+				matchDB.saveAll((List<Match>) ois.readObject());
+				
+			} catch (IOException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	

@@ -1,15 +1,23 @@
 package models;
 
+import databases.MatchDB;
 import entities.League;
+import entities.Manager;
 import entities.Match;
+import utility.FileIOReader;
+import utility.FileIOWriter;
 import utility.enums.EDivision;
 import utility.enums.ERegion;
 
 import java.io.File;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LeagueModel {
+	private static final File
+			DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects\\futbol_manager\\file_io");
+	private File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
 	private Integer id;
 	private DatabaseModel databaseModel;
 	private String leagueName;
@@ -57,14 +65,18 @@ public class LeagueModel {
 	public Map<Integer, List<Match>> generateMatchesAndFixture() {
 		int teamNums = teamIDList.size();
 		int matchesPerWeek = teamNums / 2;
-		
-		List<Integer[]> fixtureListWithID = generateFixtureList();
-		List<Match> matches = setIDToMatches(fixtureListWithID);//Mac nesnesi yarattigimiz yer.
-		
-		
-		Map<Integer, List<Match>> fixtureMap = createFixtureMap(matches, matchesPerWeek);
-		
-		Map<Integer, List<Match>> updatedFixtureMap = initializeDateToMatches(fixtureMap);
+		 if (inputFileMatch.exists()) {
+			return createFixtureMap(MatchDB.readAll(inputFileMatch), matchesPerWeek);
+		}
+		else if (BEGINNING_SEASON_DATE.isBefore(LocalDate.now()) || BEGINNING_SEASON_DATE.isEqual(LocalDate.now())) {
+			
+			List<Integer[]> fixtureListWithID = generateFixtureList();
+			List<Match> matches = setIDToMatches(fixtureListWithID);//Mac nesnesi yarattigimiz yer.
+			
+			
+			Map<Integer, List<Match>> fixtureMap = createFixtureMap(matches, matchesPerWeek);
+			
+			Map<Integer, List<Match>> updatedFixtureMap = initializeDateToMatches(fixtureMap);
 
 //        fixtureMap.forEach((k,v)->{
 //            System.out.println(k+".Hafta");
@@ -72,7 +84,9 @@ public class LeagueModel {
 //                System.out.println(match);
 //            }
 //        });
-		return updatedFixtureMap;
+			return updatedFixtureMap;
+		}
+		return new HashMap<>();
 	}
 	
 	private Map<Integer, List<Match>> createFixtureMap(List<Match> matches, int matchesPerWeek) {
@@ -130,6 +144,13 @@ public class LeagueModel {
 			}
 			matchDate = matchDate.plusDays(7);
 		}
+		List<Match> matchList = weeklyFixture.values().stream()
+		                                     .flatMap(List::stream)
+		                                     .collect(Collectors.toList());
+		for (Match match : matchList) {
+			databaseModel.matchDB.update(match);
+		}
+		FileIOWriter.writeMatchToBin(databaseModel.matchDB);
 		return weeklyFixture;
 	}
 	
