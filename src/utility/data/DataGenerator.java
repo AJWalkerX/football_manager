@@ -2,6 +2,7 @@ package utility.data;
 
 import databases.*;
 import entities.*;
+import models.DatabaseModel;
 import utility.enums.EDivision;
 import utility.enums.EPosition;
 import utility.enums.ERegion;
@@ -115,4 +116,123 @@ public class DataGenerator {
 		Manager manager18 = new Manager(managerDB,"Tuncay Sanli","42","tuncaysanli",password,18,6);
 		Manager manager19 = new Manager(managerDB, "Fikret Öztürk", "40", "fiko", password, 19, 4);
 	}
+	public static void generateStadiums(DatabaseModel databaseModel) {
+		new Stadium(databaseModel, "Ülker Stadyumu Fenerbahçe Şükrü Saracoğlu Spor Kompleksi", "İstanbul", 50609);
+		new Stadium(databaseModel, "Toki Arena", "İstanbul", 52500);
+		new Stadium(databaseModel, "Vodafone Park", "İstanbul", 41758);
+		new Stadium(databaseModel, "Şenol Güneş Spor Kompleksi", "Trabzon", 40661);
+		new Stadium(databaseModel, "Izmit IsmetPaşa Stadyumu", "Kocaeli", 34829);
+		new Stadium(databaseModel, "Çaykur Didi Stadyumu", "Rize", 15300);
+		new Stadium(databaseModel, "Samsun Stadyumu", "Samsun", 33000);
+		new Stadium(databaseModel, "Antalya Stadyumu", "Antalya", 33000);
+		new Stadium(databaseModel, "Göztepe Gürsel Aksel Stadyumu", "İzmir", 20500);
+		new Stadium(databaseModel, "Adana Stadyumu", "Adana", 33000);
+		new Stadium(databaseModel, "Bahçeşehir Okulları Stadyumu", "Antalya", 10500);
+		new Stadium(databaseModel, "Sivas 4 Eylül Stadyumu", "Sivas", 27182);
+		new Stadium(databaseModel, "Kasımpaşa Stadyumu", "İstanbul", 14000);
+		new Stadium(databaseModel, "Konya Büyükşehir Stadyumu", "Konya", 42000);
+		new Stadium(databaseModel, "Kalyon Stadyumu", "Gaziantep", 33500);
+		new Stadium(databaseModel, "Hatay Stadyumu", "Hatay", 25000);
+		new Stadium(databaseModel, "Timsah Arena", "Bursa", 32325);
+		new Stadium(databaseModel, "Sakarya Atatürk Stadyumu", "Sakarya", 27569);
+		new Stadium(databaseModel, "Bodrum Belediyesi Bodrumspor Stadyumu", "Muğla", 5000);
+	}
+	public static Map<Integer, List<Match>> setDatestoMatches(League league, List<Match> matches) {
+		
+		
+		LocalDate matchDate = league.getBEGINNING_OF_SEASON();
+		
+		int totalWeek = (league.getTeamIdList().size() - 1) * 2;
+		int matchesPerWeek = league.getTeamIdList().size() / 2;
+		int matchIndex = 0;
+		
+		for (int i = 0; i < totalWeek; i++) {
+			for (int j = 0; j < matchesPerWeek; j++) {
+				switch (j) {
+					case 0, 1:
+						matches.get(matchIndex++).setMatchDate(matchDate);
+						break;
+					case 2, 3, 4:
+						matches.get(matchIndex++).setMatchDate(matchDate.plusDays(1));
+						break;
+					case 5, 6, 7:
+						matches.get(matchIndex++).setMatchDate(matchDate.plusDays(2));
+						break;
+					case 8, 9:
+						matches.get(matchIndex++).setMatchDate(matchDate.plusDays(3));
+						break;
+				}
+			}
+			matchDate = matchDate.plusDays(7);
+		}
+		return null;
+	}
+	
+	public static List<Integer[]> generateFixtureList(int teamCount) {
+		
+		
+		List<Integer[]> fixture = new ArrayList<>();
+		
+		// Her takımın birbirleriyle iki kez karşılaşacağı fikstürü oluşturuyoruz
+		for (int i = 0; i < teamCount - 1; i++) {
+			for (int j = 0; j < teamCount / 2; j++) {
+				int home = (i + j) % (teamCount - 1);
+				int away = (teamCount - 1 - j + i) % (teamCount - 1);
+				if (j == 0) {
+					away = teamCount - 1;
+				}
+				fixture.add(new Integer[]{home, away});
+			}
+		}
+		
+		// İkinci yarı için ters maçları ekliyoruz
+		List<Integer[]> reversedFixture = new ArrayList<>();
+		for (Integer[] match : fixture) {
+			reversedFixture.add(new Integer[]{match[1], match[0]});
+		}
+		fixture.addAll(reversedFixture);
+		
+		
+		//Aynı takım üst üste sürekli ev sahibi olmasın diye
+		List<Integer[]> temp = List.copyOf(fixture);
+		
+		for(int i =0;i<teamCount-1;i++){
+			for(int j=0;j<teamCount/2;j++ ){
+				if(i%2==0){
+					fixture.set(j+(i*10),temp.get(190+j+(i*10)));
+					fixture.set(190+j+(i*10), temp.get(j+(i*10)));
+				}
+			}
+		}
+		return fixture;
+	}
+	public static List<Match> setIDToMatches(DatabaseModel databaseModel, List<Integer[]> fixtureList,League league) {
+		//maçlara id atar.
+		List<Integer> teamIDlist = league.getTeamIDList();
+		List<Match> matchesList = new ArrayList<>();
+		
+		for (Integer[] matches : fixtureList) {
+			Match match = new Match(databaseModel.matchDB);
+			if (matches[0] < teamIDlist.size() && matches[1] < teamIDlist.size()) {
+				match.setHomeTeamID(teamIDlist.get(matches[0]));
+				match.setAwayTeamID(teamIDlist.get(matches[1]));
+				matchesList.add(match);
+			}
+		}
+		return matchesList;
+	}
+	//maçlar için 3 ayrı metod
+	public static void generateMatchesAndFixture(DatabaseModel databaseModel,League league){
+		int teamNums = league.getTeamIDList().size();
+		int matchesPerWeek = teamNums/2;
+		
+		List<Integer[]> fixtureListWithID = generateFixtureList(teamNums);
+		
+		List<Match> matches = setIDToMatches(databaseModel, fixtureListWithID, league);//Mac nesnesi yarattigimiz yer.
+		
+		setDatestoMatches(league, matches);
+		
+		
+	}
+	
 }

@@ -14,9 +14,11 @@ public class Match extends BaseEntity {
 	private String winner;
 	private LocalDate MatchDate;
 	private Integer leagueID;
+	private boolean isPlayed;
 	
 	public Match(MatchDB matchDB) {
 		super.id = matchDB.findAll().size()+1;
+		isPlayed=false;
 		matchDB.save(this);
 		FileIOWriter.writeMatchToBin(matchDB);
 	}
@@ -33,11 +35,17 @@ public class Match extends BaseEntity {
 		this.winner = winner;
 		MatchDate = matchDate;
 		this.leagueID = leagueID;
-		
+		isPlayed=false;
 		matchDB.save(this);
 		FileIOWriter.writeMatchToBin(matchDB);
 	}
+	public boolean isPlayed() {
+		return isPlayed;
+	}
 	
+	public void setPlayed(boolean played) {
+		isPlayed = played;
+	}
 	public Integer getHomeTeamID() {
 		return homeTeamID;
 	}

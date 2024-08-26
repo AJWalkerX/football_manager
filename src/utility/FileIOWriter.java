@@ -54,8 +54,17 @@ public class FileIOWriter {
 	
 	public static void writeMatchToBin(MatchDB matchDB){
 		File outputFile = new File(DIRECTORY, "matchDB.bin");
-		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile))) {
 			oos.writeObject(matchDB.findAll());
+			
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	public static void writeStadiumToBin(StadiumDB stadiumDB){
+		File outputFile = new File(DIRECTORY, "stadiumDB.bin");
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile))) {
+			oos.writeObject(stadiumDB.findAll());
 			
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -68,5 +77,6 @@ public class FileIOWriter {
 		writeTeamToBin(databaseModel.teamDB);
 		writeManagerToBin(databaseModel.managerDB);
 		writeMatchToBin(databaseModel.matchDB);
+		writeStadiumToBin(databaseModel.stadiumDB);
 	}
 }

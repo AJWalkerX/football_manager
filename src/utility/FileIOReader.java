@@ -43,8 +43,21 @@ public class FileIOReader {
 			DataGenerator.generateManagers(databaseModel.managerDB);
 		}
 		//Match icin
-		readMatchFromBin(databaseModel.matchDB);
-		
+		File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
+		if(inputFileMatch.exists()){
+			readMatchFromBin(databaseModel);
+		}else{
+			DataGenerator.generateMatchesAndFixture(databaseModel, databaseModel.leagueDB.findAll().get(0));
+			
+		}
+		//Stadium için
+		File inputFileStadium = new File(DIRECTORY, "stadiumDB.bin");
+		if(inputFileManager.exists()){
+			readStadiumFromBin(databaseModel.stadiumDB);
+		}else{
+			DataGenerator.generateStadiums(databaseModel);
+			
+		}
 		
 	}
 	
@@ -87,19 +100,24 @@ public class FileIOReader {
 			e.printStackTrace();
 		}
 	}
-	public static void readMatchFromBin(MatchDB matchDB) {
-		File inputFileMatch = new File(DIRECTORY, "matchDB.bin");
-		if(inputFileMatch.exists()){
-			File inputFile = new File(DIRECTORY, "matchDB.bin");
-			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
-				matchDB.saveAll((List<Match>) ois.readObject());
-				
-			} catch (IOException | ClassNotFoundException e) {
-				e.printStackTrace();
-			}
+	public static void readMatchFromBin(DatabaseModel databaseModel) {
+		File inputFile = new File(DIRECTORY, "matchDB.bin");
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
+			databaseModel.matchDB.saveAll((List<Match>) ois.readObject());
+			
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 	}
-	
+	public static void readStadiumFromBin(StadiumDB stadiumDB) {
+		File inputFile = new File(DIRECTORY, "stadiumDB.bin");
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
+			stadiumDB.saveAll((List<Stadium>) ois.readObject());
+			
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	
 }
