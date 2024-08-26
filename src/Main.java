@@ -18,7 +18,7 @@ diğer kulüpleri özet bilgiyle görüntüleyebilsin. Ayrıca başka kulüp fut
 kendi kulübünün futbolcularını detaylı görüntüleyebilsin.
 * */
 public class Main {
-	static DatabaseModel databaseModel = new DatabaseModel();
+	static DatabaseModel databaseModel = DatabaseModel.getInstance();
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
 		FileIOReader.readAllEntities(databaseModel);
