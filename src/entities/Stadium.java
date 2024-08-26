@@ -15,7 +15,7 @@ public class Stadium extends BaseEntity {
 		this.location = location;
 		this.capacity = capacity;
 		databaseModel.stadiumDB.save(this);
-		FileIOWriter.writeStadiumToBin(databaseModel);
+		FileIOWriter.writeStadiumToBin(databaseModel.stadiumDB);
 	}
 	
 	public String getName() {

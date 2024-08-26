@@ -19,26 +19,13 @@ public class Match extends BaseEntity {
 	public Match(MatchDB matchDB) {
 		super.id = matchDB.findAll().size()+1;
 		isPlayed=false;
+		this.leagueID = 1;
 		matchDB.save(this);
+		
 		FileIOWriter.writeMatchToBin(matchDB);
 	}
 	
-	public Match(MatchDB matchDB,Integer homeTeamID, Integer awayTeamID, Integer homeTeamScore, Integer awayTeamScore, String winner
-			, LocalDate matchDate, Integer leagueID) {
-		
-		super.id = matchDB.findAll().size()+1;
-		
-		this.homeTeamID = homeTeamID;
-		this.awayTeamID = awayTeamID;
-		this.homeTeamScore = homeTeamScore;
-		this.awayTeamScore = awayTeamScore;
-		this.winner = winner;
-		MatchDate = matchDate;
-		this.leagueID = leagueID;
-		isPlayed=false;
-		matchDB.save(this);
-		FileIOWriter.writeMatchToBin(matchDB);
-	}
+	
 	public boolean isPlayed() {
 		return isPlayed;
 	}

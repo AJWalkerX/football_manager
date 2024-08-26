@@ -70,6 +70,15 @@ public class FileIOWriter {
 			throw new RuntimeException(e);
 		}
 	}
+	public static void writeStatsToBin(StatsDB statsDB){
+		File outputFile = new File(DIRECTORY, "statsDB.bin");
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(outputFile))) {
+			oos.writeObject(statsDB.findAll());
+			
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 	public static void saveAllEntities(DatabaseModel databaseModel) {
 		writePlayerToBin(databaseModel.playerDB);
@@ -78,5 +87,6 @@ public class FileIOWriter {
 		writeManagerToBin(databaseModel.managerDB);
 		writeMatchToBin(databaseModel.matchDB);
 		writeStadiumToBin(databaseModel.stadiumDB);
+		writeStatsToBin(databaseModel.statsDB);
 	}
 }

@@ -4,6 +4,7 @@ import databases.LeagueDB;
 import databases.MatchDB;
 import entities.League;
 import entities.Match;
+import entities.Stats;
 import utility.FileIOWriter;
 import utility.enums.EDivision;
 import utility.enums.ERegion;
@@ -76,32 +77,32 @@ public class LeagueModel {
 		
 	}
 	
-//	public void displayStandings() {
-//		AtomicInteger rank = new AtomicInteger(1);
-//
-//		System.out.printf("%-4s %-20s %3s %3s %3s %3s %3s %3s %4s %3s%n",
-//		                  "No", "Team Name", "GP", "W", "D", "L", "F", "A", "GD", "P");
-//
-//		databaseModel.teamDB.findAll().stream()
-//		                    .filter(t -> !t.getId().equals(20))
-//		                    .sorted(Comparator.comparing(Team::getPoints, Comparator.reverseOrder())
-//		                                      .thenComparing(Team::getGoalDifference,Comparator.reverseOrder())
-//		                                      .thenComparing(Team::getGoalsFor,Comparator.reverseOrder()))
-//		                    .map(t -> String.format("%-4d %-20s %3d %3d %3d %3d %3d %3d %4d %3d",
-//		                                            rank.getAndIncrement(),
-//		                                            t.getTeamName(),
-//		                                            t.getGamesPlayed(),
-//		                                            t.getTotalWins(),
-//		                                            t.getTotalDraw(),
-//		                                            t.getTotalLose(),
-//		                                            t.getGoalsFor(),
-//		                                            t.getGoalsAgainst(),
-//		                                            t.getGoalDifference(),
-//		                                            t.getPoints()))
-//		                    .forEach(System.out::println);
-//		System.out.println("----------------------------------------------");
-//	}
-//
+	public void displayStandings() {
+		AtomicInteger rank = new AtomicInteger(1);
+
+		System.out.printf("%-4s %-20s %3s %3s %3s %3s %3s %3s %4s %3s%n",
+		                  "No", "Team Name", "GP", "W", "D", "L", "F", "A", "GD", "P");
+
+		databaseModel.statsDB.findAll().stream()
+		                    .filter(t -> !t.getId().equals(20))
+		                    .sorted(Comparator.comparing(Stats::getPoints, Comparator.reverseOrder())
+		                                      .thenComparing(Stats::getGoalsDifference,Comparator.reverseOrder())
+		                                      .thenComparing(Stats::getGoalsFor,Comparator.reverseOrder()))
+		                    .map(t -> String.format("%-4d %-20s %3d %3d %3d %3d %3d %3d %4d %3d",
+		                                            rank.getAndIncrement(),
+		                                            databaseModel.teamDB.findByID(t.getId()).get().getTeamName(),
+		                                            t.getGamesPlayed(),
+		                                            t.getTotalWins(),
+		                                            t.getTotalDraws(),
+		                                            t.getTotalLosses(),
+		                                            t.getGoalsFor(),
+		                                            t.getGoalsAgainst(),
+		                                            t.getGoalsDifference(),
+		                                            t.getPoints()))
+		                    .forEach(System.out::println);
+		System.out.println("----------------------------------------------");
+	}
+
 	public void displayPlayedMatches() {
 		System.out.println("-------------------------");
 		System.out.println(league.getLeagueName()+": PLAYED GAMES SO FAR...");

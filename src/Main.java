@@ -4,6 +4,7 @@ import models.LeagueModel;
 import modules.LeagueModule;
 import modules.ManagerModule;
 
+import modules.MatchModule;
 import modules.TeamModule;
 import utility.FileIOReader;
 import utility.FileIOWriter;
@@ -21,6 +22,7 @@ public class Main {
 	private static Scanner sc = new Scanner(System.in);
 	public static void main(String[] args) {
 		FileIOReader.readAllEntities(databaseModel);
+		MatchModule.playMatchesBeforeDate(databaseModel);
 		int opt = 0;
 		do {
 			opt = startApplication(mainMenu());
@@ -29,7 +31,7 @@ public class Main {
 	}
 	
 	public static int startApplication(int opt) {
-			switch (opt) {
+		switch (opt) {
 				case 1:
 					ManagerModule.managerModule(databaseModel);
 					break;
@@ -38,6 +40,9 @@ public class Main {
 					break;
 				case 3:
 					LeagueModule.leagueModule(databaseModel);
+					break;
+				case 4:
+					MatchModule.matchModule(databaseModel);
 					break;
 				case 0:
 					System.out.println("Exiting application...");

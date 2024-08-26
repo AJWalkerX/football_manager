@@ -80,7 +80,7 @@ public class LeagueModule {
 				leagueModuleMenuOptions(leagueModuleMenu());
 				break;
 			case 3: // -> Puan durumu
-//				leagueModel.displayStandings();
+				leagueModel.displayStandings();
 				leagueModuleMenuOptions(leagueModuleMenu());
 				break;
 			case 4://Oynanmis maclari goster

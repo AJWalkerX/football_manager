@@ -19,10 +19,12 @@ public class League extends BaseEntity{
 	private EDivision division;
 	private String season;
 	private final LocalDate BEGINNING_SEASON_DATE;
+	private LocalDate currentDate;
 //	private final LocalDate END_SEASON_DATE; //TODO: Bunu daha sonra eklemek gerekbilir!
 	
 	public League(LeagueDB leagueDB, LocalDate BEGINNING_SEASON_DATE) {
 		super.id = leagueDB.findAll().size()+1;
+		this.currentDate = LocalDate.now();
 		this.BEGINNING_SEASON_DATE = BEGINNING_SEASON_DATE;
 		teamIDList = new ArrayList<>();
 		leagueDB.save(this);
@@ -32,6 +34,7 @@ public class League extends BaseEntity{
 	public League(LeagueDB leagueDB,String leaugeName,ERegion region,EDivision division,String season,
 	              ArrayList<Integer> teamIDList, LocalDate BEGINNING_SEASON_DATE){
 		super.id = leagueDB.findAll().size()+1;
+		this.currentDate = LocalDate.now();
 		this.teamIDList = teamIDList;
 		this.leagueName=leaugeName;
 		this.region=region;
@@ -46,6 +49,15 @@ public class League extends BaseEntity{
 		leagueDB.save(this);
 		FileIOWriter.writeLeagueToBin(leagueDB);
 	}
+	
+	public LocalDate getCurrentDate() {
+		return currentDate;
+	}
+	
+	public void setCurrentDate(LocalDate currentDate) {
+		this.currentDate = currentDate;
+	}
+	
 	public Integer getLeagueID() {
 		return id;
 	}

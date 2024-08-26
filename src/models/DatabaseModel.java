@@ -10,4 +10,5 @@ public class DatabaseModel {
 	public final LeagueDB leagueDB = new LeagueDB();
 	public final MatchDB matchDB = new MatchDB();
 	public final StadiumDB stadiumDB = new StadiumDB();
+	public final StatsDB statsDB = new StatsDB();
 }

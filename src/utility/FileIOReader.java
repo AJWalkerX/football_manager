@@ -52,11 +52,18 @@ public class FileIOReader {
 		}
 		//Stadium için
 		File inputFileStadium = new File(DIRECTORY, "stadiumDB.bin");
-		if(inputFileManager.exists()){
+		if(inputFileStadium.exists()){
 			readStadiumFromBin(databaseModel.stadiumDB);
 		}else{
 			DataGenerator.generateStadiums(databaseModel);
 			
+		}
+		//Stats için
+		File inputFileStats = new File(DIRECTORY, "statsDB.bin");
+		if(inputFileStats.exists()){
+			readStatsFromBin(databaseModel.statsDB);
+		}else{
+			DataGenerator.generateStats(databaseModel.statsDB);
 		}
 		
 	}
@@ -118,6 +125,14 @@ public class FileIOReader {
 			e.printStackTrace();
 		}
 	}
-	
+	public static void readStatsFromBin(StatsDB statsDB) {
+		File inputFile = new File(DIRECTORY, "statsDB.bin");
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(inputFile))) {
+			statsDB.saveAll((List<Stats>) ois.readObject());
+			
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

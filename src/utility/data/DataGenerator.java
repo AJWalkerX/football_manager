@@ -59,6 +59,11 @@ public class DataGenerator {
 			teamId++;
 		}
 	}
+	public static void generateStats(StatsDB statsDB) {
+		for (int i = 1; i <= 20; i++) {
+			new Stats(statsDB,1,i);
+		}
+	}
 	
 	public static void generateTeams(TeamDB teamDB, LeagueDB leagueDB) {
 		
@@ -140,10 +145,10 @@ public class DataGenerator {
 	public static Map<Integer, List<Match>> setDatestoMatches(League league, List<Match> matches) {
 		
 		
-		LocalDate matchDate = league.getBEGINNING_OF_SEASON();
+		LocalDate matchDate = league.getBeginningOfSeasonDate();
 		
-		int totalWeek = (league.getTeamIdList().size() - 1) * 2;
-		int matchesPerWeek = league.getTeamIdList().size() / 2;
+		int totalWeek = (league.getTeamIDList().size() - 1) * 2;
+		int matchesPerWeek = league.getTeamIDList().size() / 2;
 		int matchIndex = 0;
 		
 		for (int i = 0; i < totalWeek; i++) {
