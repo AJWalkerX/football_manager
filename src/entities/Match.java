@@ -11,8 +11,8 @@ public class Match extends BaseEntity{
     static Integer matchIdCounter = 0;
     private Integer homeTeamId;
     private Integer awayTeamId;
-    private Integer homeTeamScore;
-    private Integer awayTeamScore;
+    private int homeTeamScore;
+    private int awayTeamScore;
     private LocalDate matchDate;
     private Integer leagueID;
 
@@ -29,7 +29,8 @@ public class Match extends BaseEntity{
 
     }
 
-    public Match(DatabaseModel databaseModel,Integer homeTeamId, Integer awayTeamId, Integer homeTeamScore, Integer awayTeamScore, Integer leagueID) {
+    public Match(DatabaseModel databaseModel,Integer homeTeamId, Integer awayTeamId, int homeTeamScore,
+                 int awayTeamScore, Integer leagueID) {
         super.id=databaseModel.matchDB.findAll().size()+1;
         this.homeTeamId = homeTeamId;
         this.awayTeamId = awayTeamId;
@@ -89,19 +90,19 @@ public class Match extends BaseEntity{
         this.awayTeamId = awayTeamId;
     }
 
-    public Integer getHomeTeamScore() {
+    public int getHomeTeamScore() {
         return homeTeamScore;
     }
 
-    public void setHomeTeamScore(Integer homeTeamScore) {
+    public void setHomeTeamScore(int homeTeamScore) {
         this.homeTeamScore = homeTeamScore;
     }
 
-    public Integer getAwayTeamScore() {
+    public int getAwayTeamScore() {
         return awayTeamScore;
     }
 
-    public void setAwayTeamScore(Integer awayTeamScore) {
+    public void setAwayTeamScore(int awayTeamScore) {
         this.awayTeamScore = awayTeamScore;
     }
 

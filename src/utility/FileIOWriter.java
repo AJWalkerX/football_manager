@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 
 public class FileIOWriter {
 
-    private static final File DIRECTORY = new File("D:\\Java15Full\\FootballManagerApp\\FileIO");
+    private static final File DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects\\futbol_manager\\file_io");
 
     public static void writePlayerToBin(DatabaseModel databaseModel) {
         File outputFile = new File(DIRECTORY, "playerDB.bin");
@@ -102,5 +102,3 @@ public class FileIOWriter {
         writeMatchStatsToBin(databaseModel);
     }
 }
-
-

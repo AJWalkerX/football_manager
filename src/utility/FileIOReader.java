@@ -12,7 +12,8 @@ import java.util.List;
 public class FileIOReader {
 
     private static final File
-            DIRECTORY = new File("D:\\Java15Full\\FootballManagerApp\\FileIO");
+            DIRECTORY = new File("C:\\Users\\AJWal\\OneDrive\\Masaüstü\\Desktop\\BilgeAdam\\WorkFlows\\projects" +
+                                         "\\futbol_manager\\file_io");
 
 
 

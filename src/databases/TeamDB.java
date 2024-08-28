@@ -68,6 +68,10 @@ public class TeamDB extends DatabaseManager<Team> {
         return teamList.stream().filter(team -> team.getId() == teamID).findFirst();
     }
 
+    public Optional<Team> getTeamByTeamID(int teamID) {
+        return veriListesi.stream().filter(team -> team.getId() == teamID).findFirst();
+    }
+
 
     public List<Team> getRivalTeams(Manager manager){
             List<Team> rivalTeams = veriListesi.stream().filter(team->!team.getId().equals(manager.getTeamId()))
